@@ -1,0 +1,8 @@
+.divider{
+  height: 4px;
+  background-color: var(--border-color);
+}
+
+.card-container{
+  z-index: 3;
+}

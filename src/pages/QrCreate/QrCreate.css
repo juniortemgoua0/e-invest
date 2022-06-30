@@ -1,0 +1,70 @@
+.sign-in-container{
+
+}
+
+.left-banner{
+  background-image: url("/img/phone_with_casque.jpg");
+  background-size: cover;
+  background-clip: border-box;
+  background-position: center;
+  position: relative;
+}
+
+.left-banner .left-banner-cover{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--primary-color);
+  opacity: .9;
+}
+
+.app-name{
+  position: absolute;
+  z-index: 2;
+  margin-top: 10% ;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.left-banner-description{
+  position: absolute;
+  z-index: 2;
+  bottom: 20%;
+  color: white;
+  text-align: justify;
+  /*text-justify: inter-word;*/
+  padding: 10px;
+}
+
+.divider-item{
+  flex: 1;
+  height: 2px;
+  background-color: var(--border-color);
+}
+
+.qr-description{
+  width: 50%
+}
+
+@media screen and (max-width: 576px){
+  .left-banner{
+    display: none;
+  }
+  .right-side{
+    width: 100%!important;
+  }
+  .qr-description{
+    width: 100% !important;
+  }
+
+  .btn-ok{
+    width: 100% !important;
+  }
+}
+
+
+
+

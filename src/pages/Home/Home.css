@@ -1,0 +1,26 @@
+.nav-bar-contain {
+  bottom: -2px;
+  left: 0;
+  right: 0;
+}
+
+.home-contain {
+  background-color: var(--bg-primary-color);
+}
+
+.card-description {
+  background-image: url("/img/crown.png");
+  background-repeat: no-repeat;
+  background-position: right;
+   /*border: 1px solid var(--bs-gray);*/
+  border-radius: 10px;
+  box-shadow: 0 9px 49px 0 rgba(0, 0, 0, .1);
+}
+
+
+.card-amount-container{
+  top: 93%;
+  left: 0;
+  right: 0;
+  /*height: 500px;*/
+}
