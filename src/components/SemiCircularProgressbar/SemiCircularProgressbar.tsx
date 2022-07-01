@@ -45,8 +45,6 @@ export class SemiCircularProgressbar extends React.Component<Props, State> {
       return round / 1000
     }
 
-    this.setState({path: (document.getElementsByClassName('CircularProgressbar-path')[1] as SVGPathElement)})
-    console.log(this.state.path)
     this.setState({
       timer3: window.setInterval(() => {
           if (this.state.progressionStep === "stop") {

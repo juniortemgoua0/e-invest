@@ -4,6 +4,13 @@
   right: 0;
 }
 
+.semi-progress-circle-contain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1B3A89!important;
+}
+
 .home-contain {
   background-color: var(--bg-primary-color);
 }
@@ -23,4 +30,15 @@
   left: 0;
   right: 0;
   /*height: 500px;*/
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.home-contain::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.home-contain {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
