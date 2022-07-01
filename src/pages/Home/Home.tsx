@@ -18,14 +18,18 @@ export function Home(): JSX.Element {
     <div className="vh-100 overflow-scroll home-contain">
       <div className="w-100" style={{marginBottom: "200px"}}>
         <Header/>
-        <div className="card-description mx-4 d-flex flex-column py-3 px-3 mb-4">
+        <div className="card-description mx-4 d-flex flex-column py-3 px-3 mb-4" >
           <h1 className="fw-bold text-black-50 mb-4">Bienvenu sur <AppName color="black" fontSize={26}/></h1>
-          <p className="text-black-50"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci blanditiis deserunt doloremque eius facilis inventore ipsa itaque pariatur qui quisquam, </span>
+          <p className="text-black-50">
+            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+            Adipisci blanditiis deserunt doloremque eius facilis inventore ipsa itaque pariatur qui
+            quisquam,
+            </span>
           </p>
           <Button className={classes.primary} variant="contained" color="primary"
                   startIcon={<img src="/img/icon_plus.svg" alt=""/>}> Nouvelle mise</Button>
         </div>
-        <div className="semi-progress-circle-contain px-5 pt-5 position-relative">
+        <div className="semi-progress-circle-contain px-5 pt-5 position-relative" >
           <div className="text-white">
             <div className="d-flex flex-column align-items-center mb-2 fs-5">
               <span className="opacity-50">Mise en cours</span>

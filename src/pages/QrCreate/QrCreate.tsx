@@ -1,15 +1,20 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./QrCreate.css"
 import {AppName} from "../../components/AppName";
 import {Button} from "@material-ui/core";
 import {useStyles} from "../SignIn/SignIn";
-import {useNavigate} from "react-router-dom";
-import {ScaleLoader} from "react-spinners";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {MoonLoader, ScaleLoader} from "react-spinners";
+import QRCodeCanvas from "qrcode.react";
 
 export function QrCreate(): JSX.Element {
+
   const [loading, setLoading] = useState<boolean>(false);
+  const [qrLoading, setQrLoading] = useState<boolean>(false);
+  const [qrCodeValue, setQrCodeValue] = useState<string>('')
   const classes = useStyles();
   const navigate = useNavigate();
+  const location = useLocation()
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLoading(true)
@@ -18,6 +23,17 @@ export function QrCreate(): JSX.Element {
       navigate('/sign-in')
     }, 2000)
   }
+
+  useEffect(() => {
+    setQrLoading(true)
+    console.log(location)
+    window.setTimeout(() => {
+      console.log("effect")
+      // @ts-ignore
+      setQrCodeValue(value => location.state?.qr_code as string );
+      setQrLoading(false);
+    }, 4000)
+  }, [])
 
   return (
     <div className="row">
@@ -39,14 +55,15 @@ export function QrCreate(): JSX.Element {
           <div className="text-center mt-3 qr-description text-black-50">Suite a votre inscription, nous vous avons
             generer un qr code pour identifier vos differentes transactions
           </div>
-          <img src="/img/qrcode.png" alt=""/>
+          {!qrLoading ? <QRCodeCanvas className="my-5" value={qrCodeValue} renderAs="canvas"/> :
+            <MoonLoader size={100}/>}
           <div className="col-sm-12 col-md-5 btn-ok">
             <div className="w-100">
               <Button className={classes.primary} color="primary"
                       variant={"contained"}
                       onClick={handleClick}>
                 {loading ?
-                  <ScaleLoader color="#ffffff" /> :
+                  <ScaleLoader color="#ffffff"/> :
                   <span>Ok c'est compris</span>
                 }
               </Button>

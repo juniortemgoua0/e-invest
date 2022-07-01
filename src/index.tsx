@@ -10,24 +10,24 @@ import {SignUp} from "./pages/SignUp/SignUp";
 import {SignIn} from "./pages/SignIn/SignIn";
 import {Transaction} from "./pages/Transaction/Transaction";
 import {QrCreate} from "./pages/QrCreate/QrCreate";
+import "semantic-ui-css/semantic.css"
+import "dotenv"
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/home" element={<Home/>}/>
-        <Route path="/sign-in" element={<SignIn/>} />
-        <Route path="/sign-up" element={<SignUp/>} />
-        <Route path="/transaction" element={<Transaction />} />
-        <Route path="/Qrcreate" element={<QrCreate/>}/>
-        <Route path="/Qrgenerate" element={<QrCreate/>}/>
+        <Route path="home" element={<Home/>}/>
+        <Route path="sign-in" element={<SignIn/>} />
+        <Route path="sign-up" element={<SignUp/>} />
+        <Route path="transaction" element={<Transaction />} />
+        <Route path="qr">
+          <Route path="create" element={<QrCreate/>}/>
+        </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root') as HTMLElement
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
