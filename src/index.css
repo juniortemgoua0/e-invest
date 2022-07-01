@@ -24,3 +24,60 @@ body {
 /*  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',*/
 /*    monospace;*/
 /*}*/
+
+/* CSS Mobile Reset */
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  font-size: 17px;
+  background: #fff;
+  padding: 5px;
+  color: #000;
+  word-wrap: break-word;
+  -webkit-text-size-adjust: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+
+p img {
+  float: left;
+  margin: 0 10px 5px 0;
+  padding: 0;
+  font-size: 17px !important;
+}
+
+span {
+  font-size: 16px !important;
+}
+
+img {
+  border: 0;
+  max-width: 100%;
+}
+
+input[type="text"] {
+  height: 46px
+}
+
+.field label {
+  font-size: 16px !important;
+}
+
+.ui.button {
+  font-size: 18px;
+  display: block;
+}
+
+table {
+  width: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+}

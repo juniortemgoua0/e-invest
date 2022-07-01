@@ -1,4 +1,5 @@
 .nav-bar-contain {
+  position: fixed;
   bottom: -2px;
   left: 0;
   right: 0;

@@ -15,10 +15,10 @@ export function Home(): JSX.Element {
   const classes = useStyles()
 
   return (
-    <div className="vh-100 overflow-scroll home-contain">
-      <div className="w-100" style={{marginBottom: "200px"}}>
+    <div className="vh-100  home-contain">
+      <div className="w-100 overflow-scroll vh-100" style={{paddingBottom: "200px"}}>
         <Header/>
-        <div className="card-description mx-4 d-flex flex-column py-3 px-3 mb-4" >
+        <div className="card-description mx-4 d-flex flex-column py-3 px-3 mb-4 " >
           <h1 className="fw-bold text-black-50 mb-4">Bienvenu sur <AppName color="black" fontSize={26}/></h1>
           <p className="text-black-50">
             <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -56,7 +56,7 @@ export function Home(): JSX.Element {
           </div>
         </div>
       </div>
-      <div className="w-100  position-absolute nav-bar-contain">
+      <div className="w-100 nav-bar-contain">
         <NavBar activeItem={"home"}/>
       </div>
     </div>

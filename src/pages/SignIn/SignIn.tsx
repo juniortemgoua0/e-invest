@@ -12,10 +12,11 @@ import axios from "axios";
 export const useStyles = makeStyles({
   primary: {
     backgroundColor: "var(--primary-color)",
-    width: "100%",
+    width: "100%!important",
     color: "white",
     hover: "var(--primary-color-hover)",
-    height: "46px"
+    height: "46px",
+    fontSize:"20px"
   },
   outlined: {
     border: "1px solid var(--primary-color)",
@@ -23,7 +24,8 @@ export const useStyles = makeStyles({
     fontWeight: "bold",
     display: "flex",
     alignItems: "center",
-    height: "46px"
+    height: "46px",
+    fontSize:"18px"
   },
   text: {
     color: "var(--primary-color)"
@@ -80,11 +82,13 @@ export function SignIn(): JSX.Element {
       <div className="col-9 vh-100  px-4 pt-5 pb-3 right-side">
         <div className="w-100 h-100 ">
           <div className="w-100 d-flex flex-column">
-            <span className="fs-2 fw-bold mb-3">Se connecter</span>
-            <span className="lite-gray-text">
+            <div className="w-100 text-center mb-4">
+              <h1 className="fw-bold ">Connexion</h1>
+            </div>
+            <p className="lite-gray-text">
               Bienvenu sur <AppName color={"var(--subtitle-text-color)"}/>
                entrer vos identifiants de connexion
-            </span>
+            </p>
           </div>
           <div className="mt-4">
             <AutoForm schema={schema} onSubmit={handleSubmit}>
@@ -98,7 +102,7 @@ export function SignIn(): JSX.Element {
               </ErrorField>
               <div className="w-100 text-center mt-4"><Button className="text-danger fw-bold" color="primary">Mot de pass
                 oublie?</Button></div>
-              <div className="w-100 d-flex justify-content-center align-items-center mt-4">
+              <div className="w-100 d-flex justify-content-center align-items-center mt-4 row">
                 <div className="col-sm-12 col-md-5 ">
                   {
                     loading ?
@@ -111,7 +115,7 @@ export function SignIn(): JSX.Element {
                       </div> :
                       <SubmitField className={classes.primary}
                                    value="Se connecter"
-                                   style={{color: "white", backgroundColor: "var(--primary-color)", width:"100%"}}
+                                   style={{color: "white", backgroundColor: "var(--primary-color)", width:"100%", fontSize: "18px!important"}}
                       />
                   }
                 </div>

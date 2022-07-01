@@ -30,7 +30,7 @@ export function QrCreate(): JSX.Element {
     window.setTimeout(() => {
       console.log("effect")
       // @ts-ignore
-      setQrCodeValue(value => location.state?.qr_code as string );
+      setQrCodeValue(value => location.state?.qr_code as string);
       setQrLoading(false);
     }, 4000)
   }, [])
@@ -51,13 +51,16 @@ export function QrCreate(): JSX.Element {
       </div>
       <div className="col-9 vh-100  px-4 pt-5 pb-3 right-side">
         <div className="h-100 w-100 d-flex flex-column text-center align-items-center">
-          <h2 className="fw-bold">Qr Code </h2>
-          <div className="text-center mt-3 qr-description text-black-50">Suite a votre inscription, nous vous avons
+          <h1 className="fw-bold fs-1">Qr Code </h1>
+          <div className="text-center mt-3 qr-description text-black-50 mb-5">Suite a votre inscription, nous vous avons
             generer un qr code pour identifier vos differentes transactions
           </div>
-          {!qrLoading ? <QRCodeCanvas className="my-5" value={qrCodeValue} renderAs="canvas"/> :
+
+          {!qrLoading ? <QRCodeCanvas className="my-5" value={qrCodeValue} size={300} renderAs="canvas"/> :
             <MoonLoader size={100}/>}
-          <div className="col-sm-12 col-md-5 btn-ok">
+
+
+          <div className="col-sm-12 col-md-5 btn-ok mt-5">
             <div className="w-100">
               <Button className={classes.primary} color="primary"
                       variant={"contained"}

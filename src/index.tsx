@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Home} from "./pages/Home/Home";
 import {SignUp} from "./pages/SignUp/SignUp";
@@ -11,6 +9,9 @@ import {SignIn} from "./pages/SignIn/SignIn";
 import {Transaction} from "./pages/Transaction/Transaction";
 import {QrCreate} from "./pages/QrCreate/QrCreate";
 import "semantic-ui-css/semantic.css"
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import './index.css';
+
 import "dotenv"
 
 ReactDOM.render(

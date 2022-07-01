@@ -64,14 +64,16 @@ export function SignUp(): JSX.Element {
       <div className="col-9 vh-100  px-4 pt-5 pb-3 right-side overflow-scroll">
         <div className="w-100 h-100 ">
           <div className="w-100 d-flex flex-column">
-            <span className="fs-2 fw-bold mb-3">S'inscrire</span>
-            <span className="lite-gray-text mb-3">
+            <div className="w-100 text-center mb-4">
+              <h1 className="fw-bold ">Inscription</h1>
+            </div>
+            <p className="lite-gray-text mb-3">
               Bienvenu sur <AppName color={"var(--subtitle-text-color)"}/>
                veuillez entrer vos informations personnelles afin d'acceder a notre communaute
-            </span>
+            </p>
           </div>
           <AutoForm schema={schema} onSubmit={handleSubmit}>
-            <AutoField name="first_name"/>
+            <AutoField name="first_name" style={{height: "69px"}}/>
             <ErrorField name="first_name">
               <span> Veuillez renseignez votre prenom</span>
             </ErrorField>
@@ -84,7 +86,7 @@ export function SignUp(): JSX.Element {
             <ErrorField name="phone_number">
               <span> Veuillez renseignez votre numero de telephone</span>
             </ErrorField>
-            <AutoField name="password"/>
+            <AutoField name="password" />
             <ErrorField name="password">
               <span> Veuillez renseignez votre mot de passe</span>
             </ErrorField>
@@ -112,11 +114,11 @@ export function SignUp(): JSX.Element {
             <div className="w-100 text-center mt-4"><Button className="text-danger fw-bold" color="primary">Mot de pass
               oublie?</Button></div>
 
-            <div className="w-100 d-flex justify-content-center align-items-center mt-4">
-              <div className="col-sm-12 col-md-5 ">
+            <div className="w-100 d-flex justify-content-center align-items-center mt-4 row">
+              <div className="col-sm-12 col-md-5 ps-4">
                 {
                   loading ?
-                    <div className="w-100">
+                    <div className="w-100 ps-3">
                       <Button className={classes.primary}
                               color="primary"
                               variant={"contained"}>
