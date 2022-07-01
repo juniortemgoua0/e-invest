@@ -74,27 +74,19 @@ export function SignUp(): JSX.Element {
           </div>
           <AutoForm schema={schema} onSubmit={handleSubmit}>
             <AutoField name="first_name" style={{height: "69px"}}/>
-            <ErrorField name="first_name">
-              <span> Veuillez renseignez votre prenom</span>
-            </ErrorField>
+            <ErrorField name="first_name" typeof="span"/>
+
             <AutoField name="last_name"/>
-            <ErrorField name="last_name">
-              <span> Veuillez renseignez votre nom</span>
-            </ErrorField>
+            <ErrorField name="last_name"/>
+
             <AutoField name="email"/>
             <AutoField name="phone_number"/>
-            <ErrorField name="phone_number">
-              <span> Veuillez renseignez votre numero de telephone</span>
-            </ErrorField>
+            <ErrorField name="phone_number"/>
             <AutoField name="password" />
-            <ErrorField name="password">
-              <span> Veuillez renseignez votre mot de passe</span>
-            </ErrorField>
+            <ErrorField name="password"/>
 
             <AutoField name="confirm_password"/>
-            <ErrorField name="confirm_password">
-              <span> Veuillez renseignez de nouveau votre mot de passe</span>
-            </ErrorField>
+            <ErrorField name="confirm_password"/>
 
             <BoolField
               name="accept_terms_of_use"
@@ -107,9 +99,7 @@ export function SignUp(): JSX.Element {
                 </>
               }
             />
-            <ErrorField name="accept_terms_of_use">
-              <span> Vous devez accepter les la politique de confidentialite </span>
-            </ErrorField>
+            <ErrorField name="accept_terms_of_use" />
 
             <div className="w-100 text-center mt-4"><Button className="text-danger fw-bold" color="primary">Mot de pass
               oublie?</Button></div>

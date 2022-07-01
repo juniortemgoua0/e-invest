@@ -12,16 +12,15 @@ import "semantic-ui-css/semantic.css"
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './index.css';
 
-import "dotenv"
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="home" element={<Home/>}/>
-        <Route path="sign-in" element={<SignIn/>} />
-        <Route path="sign-up" element={<SignUp/>} />
-        <Route path="transaction" element={<Transaction />} />
+        <Route path="sign-in" element={<SignIn/>}/>
+        <Route path="sign-up" element={<SignUp/>}/>
+        <Route path="transaction" element={<Transaction/>}/>
         <Route path="qr">
           <Route path="create" element={<QrCreate/>}/>
         </Route>
