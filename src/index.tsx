@@ -11,7 +11,8 @@ import {QrCreate} from "./pages/QrCreate/QrCreate";
 import "semantic-ui-css/semantic.css"
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './index.css';
-
+import {Payment} from "./pages/Payment/Payment";
+import {ModalWrap} from "./components/ModalWrap/ModalWrap";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -23,6 +24,10 @@ ReactDOM.render(
         <Route path="transaction" element={<Transaction/>}/>
         <Route path="qr">
           <Route path="create" element={<QrCreate/>}/>
+        </Route>
+        <Route path="payment">
+          <Route path="bet" element={<Payment/>}/>
+          <Route path="validate" element={<ModalWrap/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -9,6 +9,7 @@ import {useStyles} from "../SignIn/SignIn";
 import {Button} from "@material-ui/core";
 import {CardAmount} from "../../components/CardAmount/CardAmount";
 import {RoundedIconCard} from "../../components/RoundedIconCard";
+import {Link} from "react-router-dom";
 
 export function Home(): JSX.Element {
 
@@ -16,9 +17,9 @@ export function Home(): JSX.Element {
 
   return (
     <div className="vh-100  home-contain">
-      <div className="w-100 overflow-scroll vh-100" style={{paddingBottom: "200px"}}>
+      <div className="w-100 overflow-scroll vh-100 home-scroll" style={{paddingBottom: "200px"}}>
         <Header/>
-        <div className="card-description mx-4 d-flex flex-column py-3 px-3 mb-4 " >
+        <div className="card-description mx-4 d-flex flex-column py-3 px-3 mb-4 ">
           <h1 className="fw-bold text-black-50 mb-4">Bienvenu sur <AppName color="black" fontSize={26}/></h1>
           <p className="text-black-50">
             <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
@@ -26,23 +27,25 @@ export function Home(): JSX.Element {
             quisquam,
             </span>
           </p>
-          <Button className={classes.primary} variant="contained" color="primary"
-                  startIcon={<img src="/img/icon_plus.svg" alt=""/>}> Nouvelle mise</Button>
+          <Link to="/payment/bet" style={{textDecoration: "none"}}>
+            <Button className={classes.primary} variant="contained" color="primary"
+                    startIcon={<img src="/img/icon_plus.svg" alt=""/>}> Nouvelle mise</Button>
+          </Link>
         </div>
-        <div className="semi-progress-circle-contain px-5 pt-5 position-relative" >
+        <div className="semi-progress-circle-contain px-5 pt-5 position-relative">
           <div className="text-white">
             <div className="d-flex flex-column align-items-center mb-2 fs-5">
-              <span className="opacity-50">Mise en cours</span>
-              <span>1000 Fcfa</span>
+              <span className="opacity-50">Debit de progression</span>
+              <span>70%</span>
             </div>
             <SemiCircularProgressbar debit={1} actif={1000}/>
             <div className="mt-5 pb-5">
-              <CardToProgress title="Debit de progression" subtitle={70 + "%"}
+              <CardToProgress title="Mise" subtitle={1000 + "Fcfa"}
                               icon="/img/icon_check_with_card_blue.svg"/>
               <CardToProgress title="Solde" subtitle={4000 + " Fcfa"} icon="/img/icon_check_with_card_green.svg"/>
             </div>
           </div>
-          <div className="position-absolute  card-amount-container px-4">
+          <div className="position-absolute  card-amount-container px-3">
             <CardAmount
               firstIcon={<RoundedIconCard color="#E76508" size={70}>
                 <img src="/img/icon_assign.svg" height={40} width={40} alt=""/>

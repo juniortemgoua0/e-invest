@@ -28,7 +28,6 @@ export function QrCreate(): JSX.Element {
     setQrLoading(true)
     console.log(location)
     window.setTimeout(() => {
-      console.log("effect")
       // @ts-ignore
       setQrCodeValue(value => location.state?.qr_code as string);
       setQrLoading(false);
@@ -56,9 +55,10 @@ export function QrCreate(): JSX.Element {
             generer un qr code pour identifier vos differentes transactions
           </div>
 
-          {!qrLoading ? <QRCodeCanvas className="my-5" value={qrCodeValue} size={300} renderAs="canvas"/> :
-            <MoonLoader size={100}/>}
-
+          {!qrLoading ?
+            <QRCodeCanvas className="my-5" value={qrCodeValue} size={300} renderAs="canvas"/> :
+            <MoonLoader size={100}/>
+          }
 
           <div className="col-sm-12 col-md-5 btn-ok mt-5">
             <div className="w-100">

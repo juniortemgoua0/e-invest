@@ -1,0 +1,32 @@
+.card-page{
+  overflow-y: scroll;
+}
+
+.card-wrapper {
+  border-radius: 10px;
+  position: relative;
+  background-color: white;
+}
+
+.card-status {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  top: -50px;
+  left: calc(50% - 50px);
+  background-color: #63ddfa;
+}
+
+.amount-detail{
+  background-color: var(--bg-primary-color);
+  border-radius: 10px;
+}
+
+.amount{
+  font-size: 36px;
+}
+
+.back-btn-container{
+  margin-top: 60px;
+}

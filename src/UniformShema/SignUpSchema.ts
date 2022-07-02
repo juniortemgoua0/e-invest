@@ -1,4 +1,4 @@
-import { Bridge } from 'uniforms';
+import {Bridge} from 'uniforms';
 
 type SignUp = {
 
@@ -29,7 +29,7 @@ const SignUpSchema = {
     label: "Email"
   },
   phone_number: {
-    __type__: String,
+    __type__: Number,
     required: true,
     label: "Numero de telephone"
   },
@@ -44,7 +44,7 @@ const SignUpSchema = {
     label: "Confirmer le mot de passe"
   },
   accept_terms_of_use: {
-    __type__: "boolean",
+    __type__: Boolean,
   }
 
 };
@@ -67,13 +67,13 @@ const SignUpSchemaValidator = (model: any) => {
 
   if (!model.password) {
     error.password = 'Mot de passe requis';
-  }else if (model.password.length < 6) {
+  } else if (model.password.length < 6) {
     error.password = 'Veuillez entrez au moins 6 caracteres';
   }
 
   if (!model.confirm_password) {
     error.confirm_password = 'Entrez de nouveau votre mot de passe';
-  }else if (model.confirm_password !== model.password){
+  } else if (model.confirm_password !== model.password) {
     error.confirm_password = "Les mots de passe ne correspondent pas. Veuillez reessayer"
   }
 
@@ -87,8 +87,8 @@ const SignUpSchemaValidator = (model: any) => {
 };
 
 export default class SignUpSchemaBridge extends Bridge {
-  public schema : any
-  public validator : any
+  public schema: any
+  public validator: any
 
   constructor(schema: any, validator: any) {
     super();
@@ -101,31 +101,31 @@ export default class SignUpSchemaBridge extends Bridge {
     return error && error[name];
   }
 
-  getErrorMessage(name:any, error:any) {
+  getErrorMessage(name: any, error: any) {
     return (error && error[name]) || '';
   }
 
-  getErrorMessages(error:any) {
+  getErrorMessages(error: any) {
     return error ? Object.keys(this.schema).map(field => error[field]) : [];
   }
 
-  getField(name:any) {
+  getField(name: any) {
     return this.schema[name.replace(/\.\d+/g, '.$')];
   }
 
-  getType(name:any) {
+  getType(name: any) {
     return this.schema[name.replace(/\.\d+/g, '.$')].__type__;
   }
 
-  getProps(name:any) {
+  getProps(name: any) {
     return this.schema[name.replace(/\.\d+/g, '.$')];
   }
 
-  getInitialValue(name:any) {
+  getInitialValue(name: any) {
     return this.schema[name.replace(/\.\d+/g, '.$')].initialValue;
   }
 
-  getSubfields(name:any) {
+  getSubfields(name: any) {
     return name
       ? this.schema[name.replace(/\.\d+/g, '.$')].subfields || []
       : Object.keys(this.schema).filter(field => field.indexOf('.') === -1);
@@ -140,14 +140,6 @@ export const bridge = new SignUpSchemaBridge(
   SignUpSchema,
   SignUpSchemaValidator,
 );
-
-
-
-
-
-
-
-
 
 
 // import {JSONSchemaBridge} from 'uniforms-bridge-json-schema';

@@ -1,0 +1,23 @@
+.select-amount{
+  font-size: 36px!important;
+}
+
+.content-amounts{
+  overflow-x: scroll;
+}
+
+.active-payment{
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.content-amounts::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.content-amounts {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

@@ -92,14 +92,16 @@ export function SignIn(): JSX.Element {
           </div>
           <div className="mt-4">
             <AutoForm schema={schema} onSubmit={handleSubmit}>
-              <AutoField name="username" />
+              <AutoField name="username" type="number"/>
               <ErrorField name="username">
                 <span>Le numero de telephone est requis</span>
               </ErrorField>
-              <AutoField name="password"/>
+
+              <AutoField name="password" type="password"/>
               <ErrorField name="password">
                 <span>Le mot de passe est requis</span>
               </ErrorField>
+
               <div className="w-100 text-center mt-4"><Button className="text-danger fw-bold" color="primary">Mot de pass
                 oublie?</Button></div>
               <div className="w-100 d-flex justify-content-center align-items-center mt-4 row">
@@ -151,7 +153,7 @@ export function SignIn(): JSX.Element {
               <div className="w-100 mt-3 text-center">
                 <span>
                   <span className="text-black-50">Vous n'avez pas de compte?</span>
-                  <Link to="/sign-up">
+                  <Link to="/sign-up" style={{textDecoration: "none"}}>
                     <Button className={classes.text} color="primary">S'inscrire</Button>
                   </Link>
                 </span>

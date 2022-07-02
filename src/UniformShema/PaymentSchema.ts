@@ -3,14 +3,13 @@ import Ajv from "ajv"
 
 const ajv = new Ajv({allErrors: true, useDefaults: true})
 
-const SignInSchema = {
-  title: "SignIn",
+const PaymentSchema = {
+  title: "Payment",
   type: "object",
   properties: {
-    username: {type: "number" , label: "Numero de telephone"},
-    password: {type: "string" , label: "Mot de passe"}
+    phone_number: {type: "number" , label: "Numero de paiement"},
   },
-  required: ["password", "username"]
+  required: ["phone_number"]
 }
 
 function createValidator(schema: object) {
@@ -21,6 +20,6 @@ function createValidator(schema: object) {
   };
 }
 
-const SignInSchemaValidator = createValidator(SignInSchema)
+const SignInSchemaValidator = createValidator(PaymentSchema)
 
-export const bridge = new JSONSchemaBridge(SignInSchema, SignInSchemaValidator);
+export const bridge = new JSONSchemaBridge(PaymentSchema, SignInSchemaValidator);

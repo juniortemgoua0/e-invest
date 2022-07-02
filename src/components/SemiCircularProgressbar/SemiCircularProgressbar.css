@@ -40,6 +40,28 @@
   right: 0;
 }
 
+@media screen and (max-width: 360px){
+  .semi-progress-circle {
+    height: 150px;
+    width: 180px;
+  }
+
+  .percent-text {
+
+    bottom: -10px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+
+  .text-0 {
+    left: 5px;
+  }
+
+  .text-100 {
+    right: -10px;
+  }
+}
+
 /*
  * react-circular-progressbar styles
  * All of the styles in this file are configurable!

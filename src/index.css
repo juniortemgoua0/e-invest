@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #1B3A89;
+  --primary-color: #1B3A89FF;
   --subtitle-text-color: #565656;
   --border-color: #DADADA;
   --primary-color-hover: #2457dc;
@@ -55,7 +55,7 @@ p img {
 }
 
 span {
-  font-size: 16px !important;
+  font-size: 16px;
 }
 
 img {
@@ -63,7 +63,7 @@ img {
   max-width: 100%;
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"], input[type="number"]  {
   height: 46px
 }
 

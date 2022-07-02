@@ -4,7 +4,7 @@ import {AppName} from "../../components/AppName";
 import {Button} from "@material-ui/core";
 import {useStyles} from "../SignIn/SignIn";
 import {Link, useNavigate} from "react-router-dom";
-import { ScaleLoader} from "react-spinners";
+import {ScaleLoader} from "react-spinners";
 import {AutoField, AutoForm, BoolField, ErrorField, SubmitField} from "uniforms-semantic";
 import {bridge as schema} from "../../UniformShema/SignUpSchema";
 import axios from "axios";
@@ -69,24 +69,37 @@ export function SignUp(): JSX.Element {
             </div>
             <p className="lite-gray-text mb-3">
               Bienvenu sur <AppName color={"var(--subtitle-text-color)"}/>
-               veuillez entrer vos informations personnelles afin d'acceder a notre communaute
+              veuillez entrer vos informations personnelles afin d'acceder a notre communaute
             </p>
           </div>
-          <AutoForm schema={schema} onSubmit={handleSubmit}>
-            <AutoField name="first_name" style={{height: "69px"}}/>
-            <ErrorField name="first_name" typeof="span"/>
 
-            <AutoField name="last_name"/>
-            <ErrorField name="last_name"/>
+          <AutoForm schema={schema} onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="col-sm-12 col-md-6 mb-3">
+                <AutoField name="first_name" style={{height: "69px"}}/>
+                <ErrorField name="first_name" typeof="span"/>
+              </div>
+              <div className="col-sm-12 col-md-6 mb-3">
+                <AutoField name="last_name"/>
+                <ErrorField name="last_name"/>
+              </div>
+            </div>
 
             <AutoField name="email"/>
-            <AutoField name="phone_number"/>
-            <ErrorField name="phone_number"/>
-            <AutoField name="password" />
-            <ErrorField name="password"/>
 
-            <AutoField name="confirm_password"/>
-            <ErrorField name="confirm_password"/>
+            <AutoField name="phone_number" type="number"/>
+            <ErrorField name="phone_number"/>
+
+            <div className="row">
+              <div className="col-sm-12 col-md-6 mb-3">
+                <AutoField name="password" type="password"/>
+                <ErrorField name="password"/>
+              </div>
+              <div className="col-sm-12 col-md-6 mb-3">
+                <AutoField name="confirm_password" type="password"/>
+                <ErrorField name="confirm_password"/>
+              </div>
+            </div>
 
             <BoolField
               name="accept_terms_of_use"
@@ -99,7 +112,7 @@ export function SignUp(): JSX.Element {
                 </>
               }
             />
-            <ErrorField name="accept_terms_of_use" />
+            <ErrorField name="accept_terms_of_use"/>
 
             <div className="w-100 text-center mt-4"><Button className="text-danger fw-bold" color="primary">Mot de pass
               oublie?</Button></div>
@@ -109,15 +122,17 @@ export function SignUp(): JSX.Element {
                 {
                   loading ?
                     <div className="w-100 ps-3">
-                      <Button className={classes.primary}
-                              color="primary"
-                              variant={"contained"}>
+                      <Button
+                        className={classes.primary}
+                        color="primary"
+                        variant={"contained"}>
                         <ScaleLoader color="#ffffff"/>
                       </Button>
                     </div> :
-                    <SubmitField className={classes.primary}
-                                 value="S'inscrire"
-                                 style={{color: "white", backgroundColor: "var(--primary-color)"}}
+                    <SubmitField
+                      className={classes.primary}
+                      value="S'inscrire"
+                      style={{color: "white", backgroundColor: "var(--primary-color)"}}
                     />
                 }
               </div>
@@ -127,14 +142,7 @@ export function SignUp(): JSX.Element {
 
           <div className="w-100 d-flex justify-content-center align-items-center mt-4">
             <div className="col-sm-12 col-md-5">
-              {/*<div className="w-100">*/}
-              {/*  <Button className={classes.primary} color="primary" variant={"contained"}>*/}
-              {/*    {loading ?*/}
-              {/*      <ScaleLoader color="#ffffff"/> :*/}
-              {/*      <span>S'incrire</span>*/}
-              {/*    }*/}
-              {/*  </Button>*/}
-              {/*</div>*/}
+
               <div className=" d-flex align-items-center justify-content-between mt-4">
                 <div className="divider-elt"></div>
                 <span className="mx-3 fs-5 text-black-50"> ou </span>
@@ -162,7 +170,7 @@ export function SignUp(): JSX.Element {
               <div className="w-100 mt-3 text-center mb-5">
                 <span>
                   <span className="text-black-50">Vous avez deja un compte?</span>
-                  <Link to="/sign-in">
+                  <Link to="/sign-in" style={{textDecoration: "none"}}>
                   <Button className={classes.text}
                           color="primary">Se connecter
                   </Button>
