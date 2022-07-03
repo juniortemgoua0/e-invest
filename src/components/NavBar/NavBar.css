@@ -1,0 +1,7 @@
+.active-link svg{
+  fill: var(--primary-color)
+}
+
+.active-link span{
+  color: var(--primary-color)
+}

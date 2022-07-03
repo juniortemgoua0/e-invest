@@ -37,10 +37,16 @@ body {
   line-height: 1.5;
   font-size: 17px;
   background: #fff;
-  padding: 5px;
+  padding: 0;
+  margin: 0;
   color: #000;
   word-wrap: break-word;
   -webkit-text-size-adjust: none;
+  text-decoration: none;
+}
+
+*{
+  text-decoration: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -49,7 +55,7 @@ h1, h2, h3, h4, h5, h6 {
 
 p img {
   float: left;
-  margin: 0 10px 5px 0;
+  margin: 0;
   padding: 0;
   font-size: 17px !important;
 }
@@ -63,7 +69,9 @@ img {
   max-width: 100%;
 }
 
-input[type="text"], input[type="password"], input[type="number"]  {
+input[type="text"],
+input[type="password"],
+input[type="number"] {
   height: 46px
 }
 

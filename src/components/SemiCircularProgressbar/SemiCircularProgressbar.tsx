@@ -34,6 +34,7 @@ export class SemiCircularProgressbar extends React.Component<Props, State> {
     path: null,
     text: null,
   }
+
   circleProgressbarRef = createRef<CircularProgressbar>()
 
   componentDidMount() {
@@ -152,8 +153,7 @@ export class SemiCircularProgressbar extends React.Component<Props, State> {
           </div>
           <div className="d-flex flex-column align-items-center text-black position-absolute actif-group">
             <img src="/img/icon_graph_up.svg" alt=""/>
-            <span className="text-white opacity-50 mt-1">Actif</span>
-            <div className="text-white"><span className="fs-2">2 321 </span> <span className="small"> FCFA</span></div>
+
           </div>
           <div className="solde-text">Solde</div>
           <div className="percent-text text-0">0%</div>

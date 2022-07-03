@@ -15,9 +15,9 @@ export function ModalWrap(): JSX.Element {
           <img src="/img/icon_check.svg" alt=""/>
         </div>
 
-        <div className="w-100 px-5 d-flex flex-column align-items-center"
+        <div className="w-100 px-5 d-flex flex-column align-items-center text-center"
              style={{marginTop: "70px"}}>
-          <p className="fw-bold mb-5">Paiement effectue avec succes</p>
+          <p className="fw-bold mb-5 w-100">Paiement effectue avec succes</p>
           <div className="d-flex flex-column align-items-center px-3 py-3 text-black-50 amount-detail">
             <div className="d-flex align-items-center">
               <span className="amount"> 10.000 </span>

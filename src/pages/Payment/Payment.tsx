@@ -18,9 +18,12 @@ export function Payment(): JSX.Element {
   const amountsOfBet: number[] = [500, 1000, 2000, 5000, 10000, 15000, 20000, 30000, 45000, 50000];
   const paymentMode: string[] = ["om", "momo"];
 
-  const [paymentInfo, setPaymentInfo] = useState<paymentInfo>({amount: amountsOfBet[0]} as paymentInfo);
+  const [paymentInfo, setPaymentInfo] = useState<paymentInfo>({
+    amount: amountsOfBet[0],
+    payment_mode: paymentMode[0]
+  } as paymentInfo);
   const [loading, setLoading] = useState<boolean>(false);
-  const  navigate = useNavigate()
+  const navigate = useNavigate()
   const classes = useStyles();
 
   const handleAmountSelectedClick = (index: number) => {
@@ -34,7 +37,7 @@ export function Payment(): JSX.Element {
   const handleSelectPhonePayment = (form: any) => {
     setPaymentInfo(state => ({...state, payment_number: form.phone_number}))
     setLoading(true)
-    setTimeout(()=> {
+    setTimeout(() => {
       setLoading(false)
       navigate('/payment/validate')
     }, 2000)
@@ -48,7 +51,9 @@ export function Payment(): JSX.Element {
 
       <div className="d-flex flex-column">
         <div className="montant w-100  mb-4">
-          <h3 className="text-black-50"> Montant de la mise </h3>
+          <div className="text-center w-100">
+            <h3 className="text-black-50"> Montant de la mise </h3>
+          </div>
           <div className="mt-1">
             <div className="d-flex justify-content-around align-items-center text-black-50">
               <div style={{flex: ".5"}}></div>
@@ -75,44 +80,48 @@ export function Payment(): JSX.Element {
         </div>
 
         <div className="w-100 mt-4">
-          <h3 className="text-black-50 mb-4"> Informations complementaires </h3>
-          <p className="fw-bold">Mode de paiement <span className="text-danger">*</span></p>
-          <div className="w-100 d-flex px-4 justify-content-between border py-3 rounded-2">
-            {paymentMode.map((item: string, index: number) =>
-              <div key={index}
-                   className={paymentInfo.payment_mode === item ? "bg-white shadow-sm p-2 active-payment mx-2" : "bg-white shadow-sm p-2 mx-2"}
-                   onClick={() => handleSelectPaymentMode(item)}>
-                <img src={"/img/" + item + ".png"} alt=""/>
-              </div>
-            )}
+          <div className="text-center w-100">
+            <h3 className="text-black-50 mb-4"> Informations complementaires </h3>
           </div>
+          <div className="mt-4">
+            <AutoForm schema={schema} onSubmit={handleSelectPhonePayment}>
+              <AutoField name="phone_number" type="number"/>
+              <ErrorField name="phone_number">
+                <span>Le numero de payement est requis </span>
+              </ErrorField>
+              <p className="fw-bold">Mode de paiement <span className="text-danger">*</span></p>
+              <div className="w-100 d-flex px-4 justify-content-between border py-3 rounded-2">
+                {paymentMode.map((item: string, index: number) =>
+                  <div key={index}
+                       className={paymentInfo.payment_mode === item ? "bg-white shadow-sm p-2 active-payment mx-2" : "bg-white shadow-sm p-2 mx-2"}
+                       onClick={() => handleSelectPaymentMode(item)}>
+                    <img src={"/img/" + item + ".png"} alt=""/>
+                  </div>
+                )}
+              </div>
+              <div className="w-100 mt-5">
+                {
+                  loading ?
+                    <div className="w-100 ps-3">
+                      <Button className={classes.primary}
+                              color="primary"
+                              variant={"contained"}>
+                        <ScaleLoader color="#ffffff"/>
+                      </Button>
+                    </div> :
+                    <SubmitField className={classes.primary}
+                                 value="Valider paiement"
+                                 style={{color: "white", backgroundColor: "var(--primary-color)"}}
+                    />
+                }
+              </div>
+
+            </AutoForm>
+          </div>
+
         </div>
 
-        <div className="mt-4">
-          <AutoForm schema={schema} onSubmit={handleSelectPhonePayment}>
-            <AutoField name="phone_number" type="number"/>
-            <ErrorField name="phone_number">
-              <span>Le numero de payement est requis </span>
-            </ErrorField>
-            <div className="w-100 mt-5">
-              {
-                loading ?
-                  <div className="w-100 ps-3">
-                    <Button className={classes.primary}
-                            color="primary"
-                            variant={"contained"}>
-                      <ScaleLoader color="#ffffff"/>
-                    </Button>
-                  </div> :
-                  <SubmitField className={classes.primary}
-                               value="Valider paiement"
-                               style={{color: "white", backgroundColor: "var(--primary-color)"}}
-                  />
-              }
-            </div>
 
-          </AutoForm>
-        </div>
 
       </div>
     </div>

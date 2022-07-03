@@ -1,7 +1,7 @@
 import {JSONSchemaBridge} from "uniforms-bridge-json-schema";
 import Ajv from "ajv"
 
-const ajv = new Ajv({allErrors: true, useDefaults: true})
+const ajv = new Ajv({allErrors: true, useDefaults: true});
 
 const PaymentSchema = {
   title: "Payment",

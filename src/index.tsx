@@ -16,21 +16,7 @@ import {ModalWrap} from "./components/ModalWrap/ModalWrap";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="home" element={<Home/>}/>
-        <Route path="sign-in" element={<SignIn/>}/>
-        <Route path="sign-up" element={<SignUp/>}/>
-        <Route path="transaction" element={<Transaction/>}/>
-        <Route path="qr">
-          <Route path="create" element={<QrCreate/>}/>
-        </Route>
-        <Route path="payment">
-          <Route path="bet" element={<Payment/>}/>
-          <Route path="validate" element={<ModalWrap/>}/>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <App />
   </React.StrictMode>,
   document.getElementById('root') as HTMLElement
 );
