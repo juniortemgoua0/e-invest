@@ -2,7 +2,6 @@ import React from "react";
 import "./Home.css";
 import {SemiCircularProgressbar} from "../../components/SemiCircularProgressbar/SemiCircularProgressbar";
 import {CardToProgress} from "../../components/CardToProgress";
-import {NavBar} from "../../components/NavBar/NavBar";
 import {Header} from "../../components/Header/Header";
 import {AppName} from "../../components/AppName";
 import {useStyles} from "../SignIn/SignIn";
@@ -36,16 +35,16 @@ export function Home(): JSX.Element {
       <div className="semi-progress-circle-contain px-4 pt-5 position-relative">
         <div className="text-white">
           <div className="d-flex flex-column align-items-center mb-2 ">
-            <span className="opacity-50 fs-4">Debit de progression</span>
-            <span>70%</span>
+            <span className="opacity-50 fs-3">Debit de progression</span>
+            <span className="fs-4">70%</span>
           </div>
           <SemiCircularProgressbar debit={1} actif={1000}/>
           <div className="mt-5 pb-5">
-            <CardToProgress title="Actif" subtitle={2321 + " FCFA"}
+            <CardToProgress title="Actif" subtitle={2321}
+                            icon="/img/icon_check_with_card_green.svg"/>
+            <CardToProgress title="Mise" subtitle={1000}
                             icon="/img/icon_check_with_card_blue.svg"/>
-            <CardToProgress title="Mise" subtitle={1000 + " FCFA"}
-                            icon="/img/icon_check_with_card_blue.svg"/>
-            <CardToProgress title="Solde" subtitle={4000 + " FCFA"}
+            <CardToProgress title="Solde" subtitle={4000}
                             icon="/img/icon_check_with_card_green.svg"/>
           </div>
         </div>

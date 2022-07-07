@@ -6,7 +6,6 @@ type Props = {
   activeItem: "home" | "transaction" | "setting"
 }
 
-
 export function NavBar({activeItem}: Props): JSX.Element {
 
   const itemClasses = "d-flex flex-column align-items-center text-black py-3"

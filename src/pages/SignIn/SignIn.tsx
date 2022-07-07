@@ -20,6 +20,7 @@ export const useStyles = makeStyles({
   },
   outlined: {
     border: "1px solid var(--primary-color)",
+    color: "var(--primary-color)",
     width: "100%",
     fontWeight: "bold",
     display: "flex",

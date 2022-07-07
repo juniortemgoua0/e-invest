@@ -156,8 +156,8 @@ export class SemiCircularProgressbar extends React.Component<Props, State> {
 
           </div>
           <div className="solde-text">Solde</div>
-          <div className="percent-text text-0">0%</div>
-          <div className="percent-text text-100">100%</div>
+          <div className="percent-text text-0 fs-4">0%</div>
+          <div className="percent-text text-100 fs-4">100%</div>
         </div>
       </>
     );

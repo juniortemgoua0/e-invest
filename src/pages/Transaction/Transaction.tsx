@@ -1,13 +1,15 @@
 import React from "react";
 import "./Transaction.css";
 import {Header} from "../../components/Header/Header";
-import {Button} from "@material-ui/core";
+import {Avatar, Button, IconButton} from "@material-ui/core";
 import {useStyles} from "../SignIn/SignIn";
 import {CardTransaction} from "../../components/CardTransaction";
 import {CardAmount} from "../../components/CardAmount/CardAmount";
 import {RoundedIconCard} from "../../components/RoundedIconCard";
 import {NavBar} from "../../components/NavBar/NavBar";
 import {Link} from "react-router-dom";
+import {BiDownload, BsDownload} from "react-icons/all";
+import {TransactionTable} from "../../components/TransactionTable/TransactionTable";
 
 
 export function Transaction(): JSX.Element {
@@ -53,7 +55,7 @@ export function Transaction(): JSX.Element {
 
         </div>
       </div>
-      <div className="w-100 px-3 pt-3 d-flex flex-column position-relative"
+      <div className="w-100 px-3 pt-3 d-flex flex-column position-relative mb-5"
            style={{backgroundColor: "var(--primary-color)", paddingBottom: "50px"}}>
         <CardTransaction amount={2000} date="Samedi 24 juin 2022" type="bet" totalGain={6000}/>
         <CardTransaction amount={4000} date="Lundi 19 juin 2022" type="withdraw" status="validate"/>
@@ -71,6 +73,19 @@ export function Transaction(): JSX.Element {
             firstText={{title: "Total mise", amount: 20000}}
             secondText={{title: "Retenu", amount: 4000}}
           />
+        </div>
+      </div>
+
+      <div className="mx-3" style={{marginTop: "80px"}}>
+        <div className="d-flex justify-content-between align-items-center">
+          <span className="text-black fs-2 fw-bold">Mes operations</span>
+          <IconButton  style={{backgroundColor: "white"}}>
+            <BsDownload size={24} color={"black"}/>
+          </IconButton>
+        </div>
+
+        <div className="mt-4">
+          <TransactionTable />
         </div>
       </div>
     </>

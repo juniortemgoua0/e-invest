@@ -41,7 +41,7 @@ export function Withdraw(): JSX.Element {
         <AutoForm schema={schema} onSubmit={handleSubmit}>
           <AutoField name="amount" type="number"/>
           <ErrorField name="amount">
-            <span>Le numero de payement est requis </span>
+            <span>Le montant de retrait est requis </span>
           </ErrorField>
           <div className="w-100 mt-5">
             {
@@ -54,12 +54,11 @@ export function Withdraw(): JSX.Element {
                   </Button>
                 </div> :
                 <SubmitField className={classes.primary}
-                             value="Valider paiement"
+                             value="Valider retrait"
                              style={{color: "white", backgroundColor: "var(--primary-color)"}}
                 />
             }
           </div>
-
         </AutoForm>
       </div>
     </>
