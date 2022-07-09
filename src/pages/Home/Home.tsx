@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./Home.css";
 import {SemiCircularProgressbar} from "../../components/SemiCircularProgressbar/SemiCircularProgressbar";
 import {CardToProgress} from "../../components/CardToProgress";
@@ -8,11 +8,29 @@ import {useStyles} from "../SignIn/SignIn";
 import {Button} from "@material-ui/core";
 import {CardAmount} from "../../components/CardAmount/CardAmount";
 import {RoundedIconCard} from "../../components/RoundedIconCard";
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
+import {toast, ToastContainer} from "react-toastify";
 
 export function Home(): JSX.Element {
 
   const classes = useStyles()
+  const location = useLocation()
+
+  useEffect( () => {
+    //@ts-ignore
+    if (location.state?.data){
+      toast.success('🦄 Connexion reussite avec succès !', {
+        position: "bottom-left",
+        autoClose: 6000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
+    }
+  }, [])
 
   return (
     <>
@@ -32,7 +50,7 @@ export function Home(): JSX.Element {
                   startIcon={<img src="/img/icon_plus.svg" alt=""/>}> Nouvelle mise</Button>
         </Link>
       </div>
-      <div className="semi-progress-circle-contain px-4 pt-5 position-relative">
+      <div className="semi-progress-circle-contain  pt-5 position-relative">
         <div className="text-white">
           <div className="d-flex flex-column align-items-center mb-2 ">
             <span className="opacity-50 fs-3">Debit de progression</span>
@@ -41,19 +59,30 @@ export function Home(): JSX.Element {
           <SemiCircularProgressbar debit={1} actif={1000}/>
           <div className="mt-5 pb-5">
             <CardToProgress title="Actif" subtitle={2321}
-                            icon="/img/icon_check_with_card_green.svg"/>
+                            icon="/img/icon_check_with_card_yellow.svg"/>
             <CardToProgress title="Mise" subtitle={1000}
                             icon="/img/icon_check_with_card_blue.svg"/>
             <CardToProgress title="Solde" subtitle={4000}
                             icon="/img/icon_check_with_card_green.svg"/>
           </div>
         </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <div className="position-absolute  card-amount-container px-3">
           <CardAmount
             firstIcon={<RoundedIconCard color="#E76508" size={70}>
               <img src="/img/icon_assign.svg" height={40} width={40} alt=""/>
             </RoundedIconCard>}
-            secondIcon={<RoundedIconCard color="#E7B400" size={70}>
+            secondIcon={<RoundedIconCard color="#000000" size={70}>
               <img src="/img/icon_package.svg" height={40} width={40} alt=""/>
             </RoundedIconCard>}
             firstText={{title: "Disponible", amount: 2000}}

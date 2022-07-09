@@ -10,56 +10,57 @@ import {
   TablePagination,
   TableRow
 } from "@material-ui/core";
+import {Bet} from "../../helpers/enums/bet.enum";
 
 
 interface Column {
-  id: 'numero' | 'dateOfBet' | 'bet' | 'solde' | 'available' | 'retenu' | 'actifDuration' | 'endOfBet' | 'status' ,
+  id: Bet.NUMBER | Bet.DATE_OF_BET | Bet.BET | Bet.BALANCE | Bet.AVAILABLE | Bet.RETAINED | Bet.ACTIVE_DURATION | Bet.END_OF_BET | Bet.STATUS,
   label: string;
   minWidth?: number;
-  align?: 'right';
+  align?: 'right' | 'center';
   format?: (value: number) => string;
 }
 
 const columns: readonly Column[] = [
-  { id: 'numero', label: 'Numero', minWidth: 50 },
-  { id: 'dateOfBet', label: 'Date de mise', minWidth: 120 },
+  {id: Bet.NUMBER, label: 'Numero', minWidth: 50, align: 'center'},
+  {id: Bet.DATE_OF_BET, label: 'Date de mise', minWidth: 120},
   {
-    id: 'bet',
+    id: Bet.BET,
     label: 'Mise',
     minWidth: 50,
     align: 'right',
     format: (value: number) => value.toLocaleString('en-US'),
   },
   {
-    id: 'solde',
+    id: Bet.BALANCE,
     label: 'Solde',
     minWidth: 50,
     align: 'right',
     format: (value: number) => value.toLocaleString('en-US'),
   },
   {
-    id: 'available',
+    id: Bet.AVAILABLE,
     label: 'Disponible',
     minWidth: 50,
     align: 'right',
     format: (value: number) => value.toFixed(2),
   },
   {
-    id: 'retenu',
+    id: Bet.RETAINED,
     label: 'Retenu',
     minWidth: 50,
     align: 'right',
     format: (value: number) => value.toFixed(2),
   },
   {
-    id: 'actifDuration',
+    id: Bet.ACTIVE_DURATION,
     label: 'Temps d\'actifs',
     minWidth: 50,
     align: 'right',
     format: (value: number) => value.toFixed(2),
   },
   {
-    id: 'endOfBet',
+    id: Bet.END_OF_BET,
     label: 'Fin de mise',
     minWidth: 120,
     align: 'right',
@@ -67,7 +68,7 @@ const columns: readonly Column[] = [
   },
 
   {
-    id: 'status',
+    id: Bet.STATUS,
     label: 'Statut',
     minWidth: 120,
     align: 'right',
@@ -76,43 +77,153 @@ const columns: readonly Column[] = [
 ];
 
 interface Data {
-  numero: number,
+  number: number,
   dateOfBet: string,
   bet: number,
-  solde: number,
+  balance: number,
   available: number,
-  retenu: number,
-  actifDuration: number,
+  retained: number,
+  active_duration: number,
   endOfBet: string,
   status: string,
 }
 
 function createData(
-  numero: number,
+  number: number,
   dateOfBet: string,
   bet: number,
-  solde: number,
+  balance: number,
   available: number,
-  retenu: number,
-  actifDuration: number,
+  retained: number,
+  active_duration: number,
   endOfBet: string,
   status: string,
 ): Data {
-  return { numero, dateOfBet, bet, solde, available, retenu, actifDuration, endOfBet, status };
+  return {number, dateOfBet, bet, balance, available, retained, active_duration, endOfBet, status};
 }
 
 const rows: Data[] = [
-  {numero: 1, dateOfBet: "12-01-2001" , bet: 10000, solde: 40000, available: 30000, retenu: 10000, actifDuration: 10,endOfBet: "13-01-2001",status: "En cours"},
-  {numero: 2, dateOfBet: "12-01-2001" , bet: 10000, solde: 40000, available: 30000, retenu: 10000, actifDuration: 10,endOfBet: "13-01-2001",status: "En cours"},
-  {numero: 3, dateOfBet: "12-01-2001" , bet: 10000, solde: 40000, available: 30000, retenu: 10000, actifDuration: 10,endOfBet: "13-01-2001",status: "En cours"},
-  {numero: 4, dateOfBet: "12-01-2001" , bet: 10000, solde: 40000, available: 30000, retenu: 10000, actifDuration: 10,endOfBet: "13-01-2001",status: "En cours"},
-  {numero: 5, dateOfBet: "12-01-2001" , bet: 10000, solde: 40000, available: 30000, retenu: 10000, actifDuration: 10,endOfBet: "13-01-2001",status: "En cours"},
-  {numero: 6, dateOfBet: "12-01-2001" , bet: 10000, solde: 40000, available: 30000, retenu: 10000, actifDuration: 10,endOfBet: "13-01-2001",status: "En cours"},
-  {numero: 7, dateOfBet: "12-01-2001" , bet: 10000, solde: 40000, available: 30000, retenu: 10000, actifDuration: 10,endOfBet: "13-01-2001",status: "En cours"},
-  {numero: 8, dateOfBet: "12-01-2001" , bet: 10000, solde: 40000, available: 30000, retenu: 10000, actifDuration: 10,endOfBet: "13-01-2001",status: "En cours"},
-  {numero: 9, dateOfBet: "12-01-2001" , bet: 10000, solde: 40000, available: 30000, retenu: 10000, actifDuration: 10,endOfBet: "13-01-2001",status: "En cours"},
-  {numero: 10, dateOfBet: "12-01-2001" , bet: 10000, solde: 40000, available: 30000, retenu: 10000, actifDuration: 10,endOfBet: "13-01-2001",status: "En cours"},
-  {numero: 11, dateOfBet: "12-01-2001" , bet: 10000, solde: 40000, available: 30000, retenu: 10000, actifDuration: 10,endOfBet: "13-01-2001",status: "En cours"},
+  {
+    number: 1,
+    dateOfBet: "12-01-2001",
+    bet: 10000,
+    balance: 40000,
+    available: 30000,
+    retained: 10000,
+    active_duration: 10,
+    endOfBet: "13-01-2001",
+    status: "En cours"
+  },
+  {
+    number: 2,
+    dateOfBet: "12-01-2001",
+    bet: 10000,
+    balance: 40000,
+    available: 30000,
+    retained: 10000,
+    active_duration: 10,
+    endOfBet: "13-01-2001",
+    status: "En cours"
+  },
+  {
+    number: 3,
+    dateOfBet: "12-01-2001",
+    bet: 10000,
+    balance: 40000,
+    available: 30000,
+    retained: 10000,
+    active_duration: 10,
+    endOfBet: "13-01-2001",
+    status: "En cours"
+  },
+  {
+    number: 4,
+    dateOfBet: "12-01-2001",
+    bet: 10000,
+    balance: 40000,
+    available: 30000,
+    retained: 10000,
+    active_duration: 10,
+    endOfBet: "13-01-2001",
+    status: "En cours"
+  },
+  {
+    number: 5,
+    dateOfBet: "12-01-2001",
+    bet: 10000,
+    balance: 40000,
+    available: 30000,
+    retained: 10000,
+    active_duration: 10,
+    endOfBet: "13-01-2001",
+    status: "En cours"
+  },
+  {
+    number: 6,
+    dateOfBet: "12-01-2001",
+    bet: 10000,
+    balance: 40000,
+    available: 30000,
+    retained: 10000,
+    active_duration: 10,
+    endOfBet: "13-01-2001",
+    status: "En cours"
+  },
+  {
+    number: 7,
+    dateOfBet: "12-01-2001",
+    bet: 10000,
+    balance: 40000,
+    available: 30000,
+    retained: 10000,
+    active_duration: 10,
+    endOfBet: "13-01-2001",
+    status: "En cours"
+  },
+  {
+    number: 8,
+    dateOfBet: "12-01-2001",
+    bet: 10000,
+    balance: 40000,
+    available: 30000,
+    retained: 10000,
+    active_duration: 10,
+    endOfBet: "13-01-2001",
+    status: "En cours"
+  },
+  {
+    number: 9,
+    dateOfBet: "12-01-2001",
+    bet: 10000,
+    balance: 40000,
+    available: 30000,
+    retained: 10000,
+    active_duration: 10,
+    endOfBet: "13-01-2001",
+    status: "En cours"
+  },
+  {
+    number: 10,
+    dateOfBet: "12-01-2001",
+    bet: 10000,
+    balance: 40000,
+    available: 30000,
+    retained: 10000,
+    active_duration: 10,
+    endOfBet: "13-01-2001",
+    status: "En cours"
+  },
+  {
+    number: 11,
+    dateOfBet: "12-01-2001",
+    bet: 10000,
+    balance: 40000,
+    available: 30000,
+    retained: 10000,
+    active_duration: 10,
+    endOfBet: "13-01-2001",
+    status: "En cours"
+  },
 ]
 // const rows = [
 //   createData('India', 'IN', 1324171354, 3287263),
@@ -132,7 +243,7 @@ const rows: Data[] = [
 //   createData('Brazil', 'BR', 210147125, 8515767),
 // ];
 
-export function TransactionTable(): JSX.Element{
+export function TransactionTable(): JSX.Element {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -146,11 +257,38 @@ export function TransactionTable(): JSX.Element{
     setPage(0);
   };
 
+  type Color = {
+    background: string,
+    color: string
+  }
+
+  const getCellBackgroundColor = (id: string): Color => {
+    if (id === Bet.RETAINED)
+      return {
+        background: '#dc3545',
+        color: 'white'
+      }
+    else if (id === Bet.AVAILABLE)
+      return {
+        background: '#28a745',
+        color: 'white'
+      }
+    else if ( id === Bet.BET)
+      return {
+        background: '#17a2b8',
+        color: 'white'
+      }
+
+    return {
+      background: '',
+      color: ''
+    }
+  }
   // const [rows1 , setRows] = useState<Data>(rows1)
 
   return (
-    <Paper style={{ width: '100%', overflow: 'hidden', fontSize: "17px" }}>
-      <TableContainer style={{ maxHeight: 440 }}>
+    <Paper style={{width: '100%', overflow: 'hidden', fontSize: "17px"}}>
+      <TableContainer style={{maxHeight: 440}}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
@@ -158,7 +296,7 @@ export function TransactionTable(): JSX.Element{
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{minWidth: column.minWidth}}
                 >
                   {column.label}
                 </TableCell>
@@ -170,11 +308,13 @@ export function TransactionTable(): JSX.Element{
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.numero}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.number}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell key={column.id}
+                                   align={column.align}
+                                   style={{backgroundColor: getCellBackgroundColor(column.id).background , color: getCellBackgroundColor(column.id).color}}>
                           {column.format && typeof value === 'number'
                             ? column.format(value)
                             : value}

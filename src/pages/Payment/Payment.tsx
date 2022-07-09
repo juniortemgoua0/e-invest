@@ -110,7 +110,7 @@ export function Payment(): JSX.Element {
                       </Button>
                     </div> :
                     <SubmitField className={classes.primary}
-                                 value="Valider paiement"
+                                 value="Valider la mise"
                                  style={{color: "white", backgroundColor: "var(--primary-color)"}}
                     />
                 }

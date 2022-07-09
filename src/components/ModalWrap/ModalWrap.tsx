@@ -17,13 +17,13 @@ export function ModalWrap(): JSX.Element {
 
         <div className="w-100 px-5 d-flex flex-column align-items-center text-center"
              style={{marginTop: "70px"}}>
-          <p className="fw-bold mb-5 w-100">Paiement effectue avec succes</p>
+          <p className="fw-bold mb-5 w-100">Mise effectuer avec success</p>
           <div className="d-flex flex-column align-items-center px-3 py-3 text-black-50 amount-detail">
             <div className="d-flex align-items-center">
               <span className="amount"> 10.000 </span>
               <span className="mt-3 ms-5 fw-light">FCFA</span>
             </div>
-            <span className=""> Votre paiement </span>
+            <span className=""> Votre paiement a ete effectue avec succes </span>
           </div>
         </div>
 

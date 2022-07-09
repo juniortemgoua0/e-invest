@@ -64,6 +64,10 @@ span {
   font-size: 16px;
 }
 
+.MuiTableCell-root ,.MuiTypography-body2, .MuiTablePagination-input{
+  font-size: 16px!important;
+}
+
 img {
   border: 0;
   max-width: 100%;
