@@ -8,13 +8,13 @@ import {ScaleLoader} from "react-spinners";
 import {AutoField, AutoForm, BoolField, ErrorField, SubmitField} from "uniforms-semantic";
 import {bridge as schema} from "../../UniformShema/SignUpSchema";
 import axios from "axios";
+import {toast, ToastContainer} from "react-toastify";
 
 export function SignUp(): JSX.Element {
 
   const classes = useStyles();
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false);
-
 
   const URI = "https://e-invest-backend.herokuapp.com/"
 
@@ -26,7 +26,7 @@ export function SignUp(): JSX.Element {
         first_name: form.first_name,
         last_name: form.last_name,
         email: form.email,
-        phone_number: form.phone_number,
+        phone_number: form.phone_number.toString(),
         password: form.password,
         confirm_password: form.confirm_password,
       })
@@ -43,6 +43,29 @@ export function SignUp(): JSX.Element {
       .catch(err => {
         setLoading(false)
         console.log(err)
+        if(err.response.data.statusCode === 401){
+          toast.error('🦄 Numero de telephone deja utiliser', {
+            position: "top-right",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+        }else{
+          toast.error('🦄 Une erreur est survenue, reessayer plutard', {
+            position: "top-right",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+        }
       })
   }
 
@@ -114,7 +137,7 @@ export function SignUp(): JSX.Element {
             />
             <ErrorField name="accept_terms_of_use"/>
 
-            <div className="w-100 text-center mt-4"><Button className="text-danger fw-bold" color="primary">Mot de pass
+            <div className="w-100 text-center mt-4" ><Button className="text-danger fw-bold fs-6" color="primary">Mot de pass
               oublie?</Button></div>
 
             <div className="w-100 d-flex justify-content-center align-items-center mt-4 row">
@@ -181,6 +204,17 @@ export function SignUp(): JSX.Element {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

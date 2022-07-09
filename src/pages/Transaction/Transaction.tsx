@@ -1,7 +1,7 @@
 import React from "react";
 import "./Transaction.css";
 import {Header} from "../../components/Header/Header";
-import {Avatar, Button, IconButton} from "@material-ui/core";
+import {Avatar, Button, Fab, IconButton} from "@material-ui/core";
 import {useStyles} from "../SignIn/SignIn";
 import {CardTransaction} from "../../components/CardTransaction";
 import {CardAmount} from "../../components/CardAmount/CardAmount";
@@ -77,15 +77,15 @@ export function Transaction(): JSX.Element {
       </div>
 
       <div className="mx-3" style={{marginTop: "80px"}}>
-        <div className="d-flex justify-content-between align-items-center">
+        <div className="d-flex justify-content-between align-items-center py-3 px-1 bg-white">
           <span className="text-black fs-2 fw-bold">Mes operations</span>
-          <IconButton  style={{backgroundColor: "white"}}>
+          <IconButton style={{backgroundColor: "white"}}>
             <BsDownload size={24} color={"black"}/>
           </IconButton>
         </div>
 
         <div className="mt-4">
-          <TransactionTable />
+          <TransactionTable/>
         </div>
       </div>
     </>

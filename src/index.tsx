@@ -10,13 +10,14 @@ import {Transaction} from "./pages/Transaction/Transaction";
 import {QrCreate} from "./pages/QrCreate/QrCreate";
 import "semantic-ui-css/semantic.css"
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 import {Payment} from "./pages/Payment/Payment";
 import {ModalWrap} from "./components/ModalWrap/ModalWrap";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App/>
   </React.StrictMode>,
   document.getElementById('root') as HTMLElement
 );

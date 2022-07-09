@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useLayoutEffect, useState} from "react";
 import "./QrCreate.css"
 import {AppName} from "../../components/AppName";
 import {Button} from "@material-ui/core";
@@ -6,6 +6,7 @@ import {useStyles} from "../SignIn/SignIn";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {MoonLoader, ScaleLoader} from "react-spinners";
 import QRCodeCanvas from "qrcode.react";
+import {toast, ToastContainer} from "react-toastify";
 
 export function QrCreate(): JSX.Element {
 
@@ -14,7 +15,7 @@ export function QrCreate(): JSX.Element {
   const [qrCodeValue, setQrCodeValue] = useState<string>('')
   const classes = useStyles();
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setLoading(true)
@@ -27,12 +28,28 @@ export function QrCreate(): JSX.Element {
   useEffect(() => {
     setQrLoading(true)
     console.log(location)
+    // @ts-ignore
+    if (location.state?.qr_code) {
+      toast.success('🦄 Inscription effectué avec succès !', {
+        position: "bottom-left",
+        autoClose: 6000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored"
+      });
+    }else {
+      navigate("/sign-up")
+    }
     window.setTimeout(() => {
       // @ts-ignore
       setQrCodeValue(value => location.state?.qr_code as string);
       setQrLoading(false);
     }, 4000)
   }, [])
+
 
   return (
     <div className="row">

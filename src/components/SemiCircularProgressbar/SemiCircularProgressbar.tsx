@@ -38,7 +38,7 @@ export class SemiCircularProgressbar extends React.Component<Props, State> {
   circleProgressbarRef = createRef<CircularProgressbar>()
 
   componentDidMount() {
-    let progressTime = (this.props.debit * 36000000)
+    let progressTime = 100
 
     function roundToTwo(number: number) {
       let round = number * 1000;          // 556.845
@@ -52,13 +52,14 @@ export class SemiCircularProgressbar extends React.Component<Props, State> {
             this.setState({timer3: undefined})
           } else if (this.state.progressionStep === "desc") {
             this.setState((state, props) => ({progression: roundToTwo(state.progression - 0.001)}))
+            localStorage.setItem("progression" , this.state.progression.toString())
             // console.log(this.state.progression)
           } else if (this.state.progressionStep === "asc") {
             this.setState((state, props) => ({progression: roundToTwo(state.progression + 0.001)}))
           }
         },
-        // progressTime
-        100
+        progressTime
+        // 100
       )
     })
 
@@ -66,7 +67,7 @@ export class SemiCircularProgressbar extends React.Component<Props, State> {
         timer: window.setInterval(() => {
             if (this.state.progressionStep === "desc") {
               if (this.state.progression > 0) {
-                this.setState((state, props) => ({progression: state.progression - 1}))
+                // this.setState((state, props) => ({progression: state.progression - 1}))
               } else {
                 this.setState((props, state) => ({progressionStep: "asc"}))
               }
@@ -84,7 +85,7 @@ export class SemiCircularProgressbar extends React.Component<Props, State> {
               if (this.state.progressionStep === "asc") {
                 this.setState({timer: undefined})
                 if (this.state.progression >= 0 && this.state.progression < 100) {
-                  this.setState((state, props) => ({progression: state.progression + 1}))
+                  // this.setState((state, props) => ({progression: state.progression + 1}))
                 } else if (this.state.progression >= 100) {
                   this.setState({timer3: undefined})
                   this.setState((props, state) => ({progressionStep: "stop"}))
