@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./Payment.css";
 import {AutoField, AutoForm, ErrorField, SubmitField} from "uniforms-semantic";
 import {bridge as schema} from "../../UniformShema/PaymentSchema";
@@ -22,6 +22,7 @@ export function Payment(): JSX.Element {
     amount: amountsOfBet[0],
     payment_mode: paymentMode[0]
   } as paymentInfo);
+  const [isMount , setIsMount] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate()
   const classes = useStyles();
@@ -37,11 +38,19 @@ export function Payment(): JSX.Element {
   const handleSelectPhonePayment = (form: any) => {
     setPaymentInfo(state => ({...state, payment_number: form.phone_number}))
     setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-      navigate('/payment/validate')
-    }, 2000)
+
   };
+
+  useEffect(()=> {
+    if (!isMount){
+      console.log(paymentInfo)
+      setTimeout(() => {
+        setLoading(false)
+        navigate('/payment/validate')
+      }, 2000)
+    }
+    setIsMount(false)
+  }, [paymentInfo])
 
   return (
     <div className="mt-4 pb-5 px-4">

@@ -8,15 +8,21 @@ import {useStyles} from "../SignIn/SignIn";
 import {Button} from "@material-ui/core";
 import {CardAmount} from "../../components/CardAmount/CardAmount";
 import {RoundedIconCard} from "../../components/RoundedIconCard";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 
 export function Home(): JSX.Element {
 
-  const classes = useStyles()
-  const location = useLocation()
+  const classes = useStyles();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect( () => {
+
+    const token = localStorage.getItem('jwt')
+    if(!token){
+      navigate('/sign-in')
+    }
     //@ts-ignore
     if (location.state?.data){
       toast.success('🦄 Connexion reussite avec succès !', {

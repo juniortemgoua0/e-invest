@@ -39,7 +39,7 @@ export function SignIn(): JSX.Element {
   const classes = useStyles();
   let navigate = useNavigate();
 
-  const URI = "https://e-invest-backend.herokuapp.com/";
+  const URI = "http://localhost:3001/";
 
   const handleSubmit = async (form: any) => {
     console.log(form)
