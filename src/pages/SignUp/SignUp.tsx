@@ -43,7 +43,7 @@ export function SignUp(): JSX.Element {
       .catch(err => {
         setLoading(false)
         console.log(err)
-        if(err.response.data.statusCode === 401){
+        if (err.response.data.statusCode === 401) {
           toast.error('🦄 Numero de telephone deja utiliser', {
             position: "top-right",
             autoClose: 10000,
@@ -54,7 +54,7 @@ export function SignUp(): JSX.Element {
             progress: undefined,
             theme: "colored"
           });
-        }else{
+        } else {
           toast.error('🦄 Une erreur est survenue, reessayer plutard', {
             position: "top-right",
             autoClose: 10000,
@@ -90,10 +90,12 @@ export function SignUp(): JSX.Element {
             <div className="w-100 text-center mb-4">
               <h1 className="fw-bold ">Inscription</h1>
             </div>
-            <p className="lite-gray-text mb-3">
-              Bienvenu sur <AppName color={"var(--subtitle-text-color)"}/>
-              veuillez entrer vos informations personnelles afin d'acceder a notre communaute
-            </p>
+            <div className="w-100 text-center">
+              <p className="lite-gray-text mb-3">
+                Bienvenu sur <AppName color={"var(--subtitle-text-color)"}/>
+                veuillez entrer vos informations personnelles afin d'acceder a notre communaute
+              </p>
+            </div>
           </div>
 
           <AutoForm schema={schema} onSubmit={handleSubmit}>
@@ -137,7 +139,8 @@ export function SignUp(): JSX.Element {
             />
             <ErrorField name="accept_terms_of_use"/>
 
-            <div className="w-100 text-center mt-4" ><Button className="text-danger fw-bold fs-6" color="primary">Mot de pass
+            <div className="w-100 text-center mt-4"><Button className="text-danger fw-bold fs-6" color="primary">Mot de
+              pass
               oublie?</Button></div>
 
             <div className="w-100 d-flex justify-content-center align-items-center mt-4 row">

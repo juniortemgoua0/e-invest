@@ -5,7 +5,7 @@ import {Outlet} from "react-router-dom";
 
 export function Layout(): JSX.Element {
 
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <div className="vh-100  home-contain">

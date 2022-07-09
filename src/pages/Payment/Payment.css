@@ -21,3 +21,28 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+.cover{
+  position: absolute;
+  background-color: white;
+  inset: 10px;
+  z-index: 5;
+  box-shadow: 0 0 100px 10px #ccc;
+  border-radius: 5px;
+}
+
+.cover_closer{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: gray;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: white;
+  box-shadow: 0 0 20px #cccccc;
+}
+
+.code_pay{
+  font-size: 36px!important;
+}

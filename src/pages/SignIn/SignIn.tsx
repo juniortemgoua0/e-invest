@@ -8,6 +8,7 @@ import {ScaleLoader} from "react-spinners";
 import {AutoField, AutoForm, ErrorField, SubmitField} from "uniforms-semantic";
 import {bridge as schema} from "../../UniformShema/SignInSchema";
 import axios from "axios";
+import {toast, ToastContainer} from "react-toastify";
 
 export const useStyles = makeStyles({
   primary: {
@@ -16,7 +17,7 @@ export const useStyles = makeStyles({
     color: "white",
     hover: "var(--primary-color-hover)",
     height: "46px",
-    fontSize:"20px"
+    fontSize: "20px"
   },
   outlined: {
     border: "1px solid var(--primary-color)",
@@ -26,7 +27,7 @@ export const useStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     height: "46px",
-    fontSize:"18px"
+    fontSize: "18px"
   },
   text: {
     color: "var(--primary-color)"
@@ -39,7 +40,7 @@ export function SignIn(): JSX.Element {
   const classes = useStyles();
   let navigate = useNavigate();
 
-  const URI = "http://localhost:3001/";
+  const URI = "https://e-invest-backend.herokuapp.com/";
 
   const handleSubmit = async (form: any) => {
     console.log(form)
@@ -62,8 +63,32 @@ export function SignIn(): JSX.Element {
       .catch(err => {
         setLoading(false)
         console.log(err)
+        if ( err.response.data.statusCode && err.response.data.statusCode === 401) {
+          toast.error('🦄 Les informations renseigner sont incorrectes, veuillez reessayer!', {
+            position: "top-right",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+        } else {
+          toast.error('🦄 Une erreur est survenue, reessayer plutard', {
+            position: "top-right",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+        }
       })
   };
+
 
   return (
     <div className="sign-in-container vh-100 row">
@@ -86,10 +111,12 @@ export function SignIn(): JSX.Element {
             <div className="w-100 text-center mb-4">
               <h1 className="fw-bold ">Connexion</h1>
             </div>
-            <p className="lite-gray-text">
-              Bienvenu sur <AppName color={"var(--subtitle-text-color)"}/>
-               entrer vos identifiants de connexion
-            </p>
+            <div className="w-100 text-center">
+              <p className="lite-gray-text">
+                Bienvenu sur <AppName color={"var(--subtitle-text-color)"}/>
+                entrer vos identifiants de connexion
+              </p>
+            </div>
           </div>
           <div className="mt-4">
             <AutoForm schema={schema} onSubmit={handleSubmit}>
@@ -103,22 +130,34 @@ export function SignIn(): JSX.Element {
                 <span>Le mot de passe est requis</span>
               </ErrorField>
 
-              <div className="w-100 text-center mt-4"><Button className="text-danger fw-bold" color="primary">Mot de pass
-                oublie?</Button></div>
+              <div className="w-100 text-center mt-4">
+                <Button className="text-danger fw-bold" color="primary">
+                  Mot de passe oublie?
+                </Button>
+              </div>
               <div className="w-100 d-flex justify-content-center align-items-center mt-4 row">
                 <div className="col-sm-12 col-md-5 ">
                   {
-                    loading ?
+                    loading
+                      ?
                       <div className="w-100">
-                        <Button className={classes.primary}
-                                color="primary"
-                                variant={"contained"}>
+                        <Button
+                          className={classes.primary}
+                          color="primary"
+                          variant={"contained"}>
                           <ScaleLoader color="#ffffff"/>
                         </Button>
-                      </div> :
-                      <SubmitField className={classes.primary}
-                                   value="Se connecter"
-                                   style={{color: "white", backgroundColor: "var(--primary-color)", width:"100%", fontSize: "18px!important"}}
+                      </div>
+                      :
+                      <SubmitField
+                        className={classes.primary}
+                        value="Se connecter"
+                        style={{
+                          color: "white",
+                          backgroundColor: "var(--primary-color)",
+                          width: "100%",
+                          fontSize: "18px!important"
+                        }}
                       />
                   }
                 </div>
@@ -164,6 +203,17 @@ export function SignIn(): JSX.Element {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

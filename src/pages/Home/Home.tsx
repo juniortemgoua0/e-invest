@@ -17,16 +17,16 @@ export function Home(): JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect( () => {
+  useEffect(() => {
 
     const token = localStorage.getItem('jwt')
-    if(!token){
+    if (!token) {
       navigate('/sign-in')
     }
     //@ts-ignore
-    if (location.state?.data){
+    if (location.state?.data) {
       toast.success('🦄 Connexion reussite avec succès !', {
-        position: "bottom-left",
+        position: "top-right",
         autoClose: 6000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -52,8 +52,13 @@ export function Home(): JSX.Element {
             </span>
         </p>
         <Link to="/payment/bet" style={{textDecoration: "none"}}>
-          <Button className={classes.primary} variant="contained" color="primary"
-                  startIcon={<img src="/img/icon_plus.svg" alt=""/>}> Nouvelle mise</Button>
+          <Button
+            className={classes.primary}
+            variant="contained"
+            color="primary"
+            startIcon={<img src="/img/icon_plus.svg" alt=""/>}>
+            Nouvelle mise
+          </Button>
         </Link>
       </div>
       <div className="semi-progress-circle-contain  pt-5 position-relative">

@@ -40,7 +40,7 @@ export function QrCreate(): JSX.Element {
         progress: undefined,
         theme: "colored"
       });
-    }else {
+    } else {
       navigate("/sign-up")
     }
     window.setTimeout(() => {
@@ -72,16 +72,23 @@ export function QrCreate(): JSX.Element {
             generer un qr code pour identifier vos differentes transactions
           </div>
 
-          {!qrLoading ?
-            <QRCodeCanvas className="my-5" value={qrCodeValue} size={300} renderAs="canvas"/> :
+          {!qrLoading
+            ?
+            <QRCodeCanvas
+              className="my-5"
+              value={qrCodeValue}
+              size={300}
+              renderAs="canvas"/>
+            :
             <MoonLoader size={100}/>
           }
 
           <div className="col-sm-12 col-md-5 btn-ok mt-5">
             <div className="w-100">
-              <Button className={classes.primary} color="primary"
-                      variant={"contained"}
-                      onClick={handleClick}>
+              <Button
+                className={classes.primary} color="primary"
+                variant={"contained"}
+                onClick={handleClick}>
                 {loading ?
                   <ScaleLoader color="#ffffff"/> :
                   <span>Ok c'est compris</span>

@@ -33,10 +33,11 @@ export function Transaction(): JSX.Element {
         <div className="w-100 d-flex justify-content-between align-items-center">
           <div className="">
             <Link to="/withdraw" style={{textDecoration: "none"}}>
-              <Button className={classes.outlined}
-                      variant="outlined"
-                      color="primary"
-                      startIcon={<img src="/img/icon_retrait.svg" alt=""/>}>
+              <Button
+                className={classes.outlined}
+                variant="outlined"
+                color="primary"
+                startIcon={<img src="/img/icon_retrait.svg" alt=""/>}>
                 Retrait
               </Button>
             </Link>
@@ -44,10 +45,11 @@ export function Transaction(): JSX.Element {
 
           <div className="">
             <Link to="/payment/bet" style={{textDecoration: "none"}}>
-              <Button className={classes.primary}
-                      variant="contained"
-                      startIcon={<img src="/img/icon_plus.svg" alt=""/>}
-                      color="primary">
+              <Button
+                className={classes.primary}
+                variant="contained"
+                startIcon={<img src="/img/icon_plus.svg" alt=""/>}
+                color="primary">
                 Nouvelle mise
               </Button>
             </Link>
