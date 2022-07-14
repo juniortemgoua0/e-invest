@@ -40,7 +40,7 @@ export function SignIn(): JSX.Element {
   const classes = useStyles();
   let navigate = useNavigate();
 
-  const URI = "https://e-invest-backend.herokuapp.com/";
+  const URI = process.env.REACT_APP_API_URI;
 
   const handleSubmit = async (form: any) => {
     console.log(form)
@@ -58,13 +58,12 @@ export function SignIn(): JSX.Element {
         localStorage.setItem('jwt', data.access_token)
         window.setTimeout(() => {
           navigate(`/home`, {state: {data: data}})
-        }, 1000)
+        }, 500)
       })
       .catch(err => {
-        setLoading(false)
         console.log(err)
-        if ( err.response.data.statusCode && err.response.data.statusCode === 401) {
-          toast.error('🦄 Les informations renseigner sont incorrectes, veuillez reessayer!', {
+        if (err && err.response?.data?.statusCode === 401) {
+          toast.error('Les informations renseigner sont incorrectes, veuillez reessayer!', {
             position: "top-right",
             autoClose: 10000,
             hideProgressBar: false,
@@ -75,9 +74,9 @@ export function SignIn(): JSX.Element {
             theme: "colored"
           });
         } else {
-          toast.error('🦄 Une erreur est survenue, reessayer plutard', {
+          toast.error( "Une erreur s'est produite, veuillez reessayer plus tard !", {
             position: "top-right",
-            autoClose: 10000,
+            autoClose: 6000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -86,6 +85,7 @@ export function SignIn(): JSX.Element {
             theme: "colored"
           });
         }
+        setLoading(false)
       })
   };
 

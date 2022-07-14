@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./ModalWrap.css";
 import {Button} from "@material-ui/core";
 import {useStyles} from "../../pages/SignIn/SignIn";
 import {Link, useLocation} from "react-router-dom";
+import {LocalStorage} from "../../helpers/enums/localStorage.enum";
 
 export function ModalWrap(): JSX.Element {
   const classes = useStyles();
@@ -16,6 +17,12 @@ export function ModalWrap(): JSX.Element {
     // @ts-ignore
     paymentMode: location.state?.payment_mode
   }
+
+  const [user, setUser] = useState<string>()
+  useEffect(() => {
+    const currentUser =  JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER) as string)
+    setUser(`${currentUser?.first_name} ${currentUser?.last_name}`)
+  }, [])
 
   return (
     <div className="d-flex justify-content-center align-items-center  card-page vh-100 w-100 px-3 py-5"
@@ -41,7 +48,7 @@ export function ModalWrap(): JSX.Element {
         <div className="mt-3 px-3 w-100">
           <div className="d-flex justify-content-between mb-2 fw-bold w-100">
             <span>De</span>
-            <span>Junior Temgoua</span>
+            <span>{user}</span>
           </div>
           <div className="d-flex justify-content-between mb-4 text-black-50 fw-bold w-100">
             <span>{paymentInfo.paymentMode === 'om' ? "Orange Money" : "Mtn Mobile Money"}</span>

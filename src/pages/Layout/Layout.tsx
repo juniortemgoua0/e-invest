@@ -1,11 +1,8 @@
 import React from "react";
 import {NavBar} from "../../components/NavBar/NavBar";
-import {useStyles} from "../SignIn/SignIn";
 import {Outlet} from "react-router-dom";
 
 export function Layout(): JSX.Element {
-
-  const classes = useStyles();
 
   return (
     <div className="vh-100  home-contain">

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./TransactionTable.css"
 import {
   Paper,
@@ -11,6 +11,9 @@ import {
   TableRow
 } from "@material-ui/core";
 import {Bet} from "../../helpers/enums/bet.enum";
+import {LocalStorage} from "../../helpers/enums/localStorage.enum";
+import axios from "axios";
+import {toast} from "react-toastify";
 
 
 interface Column {
@@ -88,143 +91,131 @@ interface Data {
   status: string,
 }
 
-function createData(
-  number: number,
-  dateOfBet: string,
-  bet: number,
-  balance: number,
-  available: number,
-  retained: number,
-  active_duration: number,
-  endOfBet: string,
-  status: string,
-): Data {
-  return {number, dateOfBet, bet, balance, available, retained, active_duration, endOfBet, status};
-}
+//
+// const rows: Data[] = [
+//   {
+//     number: 1,
+//     dateOfBet: "12-01-2001",
+//     bet: 10000,
+//     balance: 40000,
+//     available: 30000,
+//     retained: 10000,
+//     active_duration: 10,
+//     endOfBet: "13-01-2001",
+//     status: "En cours"
+//   },
+//   {
+//     number: 2,
+//     dateOfBet: "12-01-2001",
+//     bet: 10000,
+//     balance: 40000,
+//     available: 30000,
+//     retained: 10000,
+//     active_duration: 10,
+//     endOfBet: "13-01-2001",
+//     status: "En cours"
+//   },
+//   {
+//     number: 3,
+//     dateOfBet: "12-01-2001",
+//     bet: 10000,
+//     balance: 40000,
+//     available: 30000,
+//     retained: 10000,
+//     active_duration: 10,
+//     endOfBet: "13-01-2001",
+//     status: "En cours"
+//   },
+//   {
+//     number: 4,
+//     dateOfBet: "12-01-2001",
+//     bet: 10000,
+//     balance: 40000,
+//     available: 30000,
+//     retained: 10000,
+//     active_duration: 10,
+//     endOfBet: "13-01-2001",
+//     status: "En cours"
+//   },
+//   {
+//     number: 5,
+//     dateOfBet: "12-01-2001",
+//     bet: 10000,
+//     balance: 40000,
+//     available: 30000,
+//     retained: 10000,
+//     active_duration: 10,
+//     endOfBet: "13-01-2001",
+//     status: "En cours"
+//   },
+//   {
+//     number: 6,
+//     dateOfBet: "12-01-2001",
+//     bet: 10000,
+//     balance: 40000,
+//     available: 30000,
+//     retained: 10000,
+//     active_duration: 10,
+//     endOfBet: "13-01-2001",
+//     status: "En cours"
+//   },
+//   {
+//     number: 7,
+//     dateOfBet: "12-01-2001",
+//     bet: 10000,
+//     balance: 40000,
+//     available: 30000,
+//     retained: 10000,
+//     active_duration: 10,
+//     endOfBet: "13-01-2001",
+//     status: "En cours"
+//   },
+//   {
+//     number: 8,
+//     dateOfBet: "12-01-2001",
+//     bet: 10000,
+//     balance: 40000,
+//     available: 30000,
+//     retained: 10000,
+//     active_duration: 10,
+//     endOfBet: "13-01-2001",
+//     status: "En cours"
+//   },
+//   {
+//     number: 9,
+//     dateOfBet: "12-01-2001",
+//     bet: 10000,
+//     balance: 40000,
+//     available: 30000,
+//     retained: 10000,
+//     active_duration: 10,
+//     endOfBet: "13-01-2001",
+//     status: "En cours"
+//   },
+//   {
+//     number: 10,
+//     dateOfBet: "12-01-2001",
+//     bet: 10000,
+//     balance: 40000,
+//     available: 30000,
+//     retained: 10000,
+//     active_duration: 10,
+//     endOfBet: "13-01-2001",
+//     status: "En cours"
+//   },
+//   {
+//     number: 11,
+//     dateOfBet: "12-01-2001",
+//     bet: 10000,
+//     balance: 40000,
+//     available: 30000,
+//     retained: 10000,
+//     active_duration: 10,
+//     endOfBet: "13-01-2001",
+//     status: "En cours"
+//   },
+// ]
 
-const rows: Data[] = [
-  {
-    number: 1,
-    dateOfBet: "12-01-2001",
-    bet: 10000,
-    balance: 40000,
-    available: 30000,
-    retained: 10000,
-    active_duration: 10,
-    endOfBet: "13-01-2001",
-    status: "En cours"
-  },
-  {
-    number: 2,
-    dateOfBet: "12-01-2001",
-    bet: 10000,
-    balance: 40000,
-    available: 30000,
-    retained: 10000,
-    active_duration: 10,
-    endOfBet: "13-01-2001",
-    status: "En cours"
-  },
-  {
-    number: 3,
-    dateOfBet: "12-01-2001",
-    bet: 10000,
-    balance: 40000,
-    available: 30000,
-    retained: 10000,
-    active_duration: 10,
-    endOfBet: "13-01-2001",
-    status: "En cours"
-  },
-  {
-    number: 4,
-    dateOfBet: "12-01-2001",
-    bet: 10000,
-    balance: 40000,
-    available: 30000,
-    retained: 10000,
-    active_duration: 10,
-    endOfBet: "13-01-2001",
-    status: "En cours"
-  },
-  {
-    number: 5,
-    dateOfBet: "12-01-2001",
-    bet: 10000,
-    balance: 40000,
-    available: 30000,
-    retained: 10000,
-    active_duration: 10,
-    endOfBet: "13-01-2001",
-    status: "En cours"
-  },
-  {
-    number: 6,
-    dateOfBet: "12-01-2001",
-    bet: 10000,
-    balance: 40000,
-    available: 30000,
-    retained: 10000,
-    active_duration: 10,
-    endOfBet: "13-01-2001",
-    status: "En cours"
-  },
-  {
-    number: 7,
-    dateOfBet: "12-01-2001",
-    bet: 10000,
-    balance: 40000,
-    available: 30000,
-    retained: 10000,
-    active_duration: 10,
-    endOfBet: "13-01-2001",
-    status: "En cours"
-  },
-  {
-    number: 8,
-    dateOfBet: "12-01-2001",
-    bet: 10000,
-    balance: 40000,
-    available: 30000,
-    retained: 10000,
-    active_duration: 10,
-    endOfBet: "13-01-2001",
-    status: "En cours"
-  },
-  {
-    number: 9,
-    dateOfBet: "12-01-2001",
-    bet: 10000,
-    balance: 40000,
-    available: 30000,
-    retained: 10000,
-    active_duration: 10,
-    endOfBet: "13-01-2001",
-    status: "En cours"
-  },
-  {
-    number: 10,
-    dateOfBet: "12-01-2001",
-    bet: 10000,
-    balance: 40000,
-    available: 30000,
-    retained: 10000,
-    active_duration: 10,
-    endOfBet: "13-01-2001",
-    status: "En cours"
-  },
-  {
-    number: 11,
-    dateOfBet: "12-01-2001",
-    bet: 10000,
-    balance: 40000,
-    available: 30000,
-    retained: 10000,
-    active_duration: 10,
-    endOfBet: "13-01-2001",
-    status: "En cours"
-  },
-]
 // const rows = [
 //   createData('India', 'IN', 1324171354, 3287263),
 //   createData('China', 'CN', 1403500365, 9596961),
@@ -243,7 +234,30 @@ const rows: Data[] = [
 //   createData('Brazil', 'BR', 210147125, 8515767),
 // ];
 
+type Props = {
+  data: any[]
+}
+
+function createData(
+  number: number,
+  dateOfBet: string,
+  bet: number,
+  balance: number,
+  available: number,
+  retained: number,
+  active_duration: number,
+  endOfBet: string,
+  status: string,
+): Data {
+  return {number, dateOfBet, bet, balance, available, retained, active_duration, endOfBet, status};
+}
+
 export function TransactionTable(): JSX.Element {
+
+  const [rows, setRows] = useState<Data[]>([])
+  const [betData, setBetData] = useState<any[]>([])
+
+  const currentUser = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER) as string)
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -257,34 +271,44 @@ export function TransactionTable(): JSX.Element {
     setPage(0);
   };
 
-  type Color = {
-    background: string,
-    color: string
-  }
 
-  const getCellBackgroundColor = (id: string): Color => {
-    if (id === Bet.RETAINED)
-      return {
-        background: '#dc3545',
-        color: 'white'
-      }
-    else if (id === Bet.AVAILABLE)
-      return {
-        background: '#28a745',
-        color: 'white'
-      }
-    else if ( id === Bet.BET)
-      return {
-        background: '#17a2b8',
-        color: 'white'
-      }
-
-    return {
-      background: '',
-      color: ''
-    }
-  }
+  useEffect(() => {
+    (async () => {
+      await axios.get(`${process.env.REACT_APP_API_URI}bet/${currentUser._id}`)
+        .then(res => res?.data)
+        .then(data => {
+          console.log(data)
+          setBetData(data)
+        })
+        .catch(err => {
+          console.log(err)
+          toast.error("Une erreur s'est produite lors de la reccuperation de donnees de mises, " +
+            "veuillez reessayer plus tard !", {
+            position: "top-right",
+            autoClose: 6000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+        })
+    })()
+  }, [])
   // const [rows1 , setRows] = useState<Data>(rows1)
+
+  useEffect(() => {
+    betData.map((bet, index) =>
+      setRows(value => ([
+          ...value,
+          createData(index + 1, bet?.start_of_bet,
+            bet?.bet_amount, bet?.balance_amount, bet?.available_amount,
+            bet?.retained_amount, bet?.active_duration, Date.now().toLocaleString(), bet?.status)
+        ])
+      )
+    )
+  }, [betData])
 
   return (
     <Paper style={{width: '100%', overflow: 'hidden', fontSize: "17px"}}>
@@ -305,6 +329,7 @@ export function TransactionTable(): JSX.Element {
           </TableHead>
           <TableBody>
             {rows
+              .reverse()
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
@@ -312,12 +337,14 @@ export function TransactionTable(): JSX.Element {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id}
-                                   align={column.align}
-                                   style={{backgroundColor: getCellBackgroundColor(column.id).background , color: getCellBackgroundColor(column.id).color}}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                        >
+                          {
+                            column.format &&
+                            typeof value === 'number' ? column.format(value) : value
+                          }
                         </TableCell>
                       );
                     })}

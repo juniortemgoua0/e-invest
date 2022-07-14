@@ -6,6 +6,11 @@ import {Button} from "@material-ui/core";
 import {ScaleLoader} from "react-spinners";
 import {useStyles} from "../SignIn/SignIn";
 import {useNavigate} from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
+import {ProgressBar} from "react-bootstrap";
+import axios from "axios";
+import {LocalStorage} from "../../helpers/enums/localStorage.enum";
+import {toast, ToastContainer} from "react-toastify";
 
 type paymentInfo = {
   amount: number,
@@ -24,13 +29,13 @@ export function Payment(): JSX.Element {
     payment_number: ''
   } as paymentInfo);
 
-  const [isMount, setIsMount] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [paymentStatus, setPaymentStatus] = useState<string>('pending')
 
   const navigate = useNavigate();
   const classes = useStyles();
+  let currentUser = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER) as string);
 
   const handleAmountSelectedClick = (index: number) => {
     setPaymentInfo(state => ({...state, amount: amountsOfBet[index]}))
@@ -40,27 +45,156 @@ export function Payment(): JSX.Element {
     setPaymentInfo(state => ({...state, payment_mode: item}))
   };
 
-  const handleSelectPhonePayment = (form: any) => {
+  const handleSelectPhonePayment = async (form: any) => {
     setPaymentInfo(state => ({...state, payment_number: form.phone_number}))
-    setIsOpen(true)
-    window.setTimeout(() => {
-      setPaymentStatus("validate")
-    }, 5000)
     setLoading(true)
+    await axios.get(`${process.env.REACT_APP_API_URI}bet/check-bet/${currentUser?._id}`)
+      .then(res => res.data)
+      .then(data => {
+        localStorage.setItem('progression',"50")
+        console.log(data)
+        setIsOpen(true)
+        window.setTimeout(() => {
+          setPaymentStatus("slow")
+        }, 6000)
+        setLoading(true)
+
+      })
+      .catch(err => {
+        console.log(err)
+        if (err && err.response?.data?.statusCode === 401) {
+          toast.error('Vous avez deja une mise en cours, veuillez patientez que celle-ci se termine', {
+            position: "top-right",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+          setLoading(false)
+        } else {
+          toast.error('Une erreur est survenu veuillez reessayer plus tard', {
+            position: "top-right",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored"
+          });
+          setLoading(false)
+        }
+      })
+
   };
 
+  const [progressValidate, setProgressValidate] = useState<number>(0)
+  const [] = useState()
   useEffect(() => {
-    if (paymentStatus === 'validate') {
-      setTimeout(() => {
-        setLoading(false)
-        navigate(
-          '/payment/validate',
-          {state: paymentInfo}
-        )
-      }, 3000)
+    let timer: number | undefined = undefined
+
+    if (paymentStatus === 'slow') {
+
+      (async () => {
+        axios.post(`${process.env.REACT_APP_API_URI}payment/${currentUser?._id}`, {
+          amount: paymentInfo.amount,
+          phone_number: paymentInfo.payment_number.toString(),
+          payment_mode: paymentInfo.payment_mode
+        })
+          .then(res => res.data)
+          .then(data => {
+            // setIsOpen(false)
+            setLoading(false)
+            setPaymentStatus("validate")
+            let i = 0;
+            timer = window.setInterval(() => {
+              if (i < 100) {
+                i++
+                setProgressValidate(i)
+                console.log('render')
+              } else {
+                timer = undefined
+              }
+            }, 30)
+
+            console.log(data)
+
+            axios.post(`${process.env.REACT_APP_API_URI}bet/${currentUser._id}`, {
+              bet_amount: data?.amount,
+              balance_amount: data?.amount + data.amount * 0.4,
+              available_amount: data?.amount * (3 / 4),
+              retained_amount: data?.amount * (1 / 4),
+              active_duration: 24,
+              payment_reference: data?.reference
+            })
+              .then(res => res.data)
+              .then(data => {
+                console.log(data)
+                localStorage.setItem(LocalStorage.CURRENT_BET, JSON.stringify(data))
+                setTimeout(() => {
+                  setLoading(false)
+                  navigate(
+                    '/payment/validate',
+                    {state: paymentInfo}
+                  )
+                }, 12000)
+              })
+              .catch(err => {
+                console.log(err)
+                if (err && err.response?.data?.statusCode === 401) {
+                  toast.error('Vous avez deja une mise en cours, veuillez patientez que celle-ci se termine', {
+                    position: "top-right",
+                    autoClose: 10000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored"
+                  });
+                  setIsOpen(false)
+                  setLoading(false)
+                } else {
+                  toast.error('Une erreur est survenu veuillez reessayer plus tard', {
+                    position: "top-right",
+                    autoClose: 10000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored"
+                  });
+                }
+                setIsOpen(false)
+                setLoading(false)
+              })
+          })
+          .catch(err => {
+            console.log(err)
+            toast.error("Une erreur s'est produite, veuillez reessayer plus tard !", {
+              position: "top-right",
+              autoClose: 6000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored"
+            });
+            setIsOpen(false)
+            setLoading(false)
+          })
+      })();
+
+      return () => {
+
+      }
     }
   }, [paymentStatus])
-
 
   return (
     <>
@@ -79,39 +213,52 @@ export function Payment(): JSX.Element {
             paymentStatus === "pending"
               ?
               <div className="w-100 px-5 text-center" style={{paddingTop: "100px"}}>
-                <h3 className="fw-bold mb-5">En attente de traitement...</h3>
-                <p className="text-black-50">La demande de payment de
-                  <span className="fs-4"
-                        style={{color: "var(--primary-color)"}}> {paymentInfo.amount} fcfa </span>
-                  a bien été envoyé a
-                  <span className="fs-4"
-                        style={{color: "var(--primary-color)"}}> {paymentInfo.payment_number} </span>
-                  via l'operateur
-                  {paymentInfo.payment_mode === 'om'
-                    ?
-                    <span className="fs-4" style={{color: "var(--primary-color)"}}> Orange </span>
-                    :
-                    <span className="fs-4" style={{color: "var(--primary-color)"}}> MTN </span>
-                  }
+                <h3 className="fw-bold mb-5">Traitement en cours...</h3>
+                <p className="text-black-50">
+                  Nous essayeons de joindre l'operateur veuillez patienter
                 </p>
-                <p className="text-black-50">Patientez quelques instant , un message flash s'affichera, dans le cas
-                  contraire,
-                  veuillez le saisir le </p>
-                <p className="code_pay fw-bold"
-                   style={{color: paymentInfo.payment_mode === 'om' ? "orange" : '#FFFF43'}}>
-                  {paymentInfo.payment_mode === 'om' ? "#150*50#" : "*126#"}
+                <p className="100%">
+                  <Skeleton baseColor="#63ddfa" height={7}/>
                 </p>
               </div>
               :
-              paymentStatus === "validate"
+              paymentStatus === "slow"
                 ?
                 <div className="w-100 px-5 text-center" style={{paddingTop: "100px"}}>
-                  <h3 className="fw-bold mb-5">Payment effectuer avec succes</h3>
-                  {/*<h3 className=" ">Payment effectuer avec succes</h3>*/}
-                  <h3 className="fw-bold text-black-50">Placement de la mise en cours....</h3>
+                  <h3 className="fw-bold mb-5">En attente de traitement...</h3>
+                  <p className="text-black-50">La demande de payment de
+                    <span className="fs-4"
+                          style={{color: "var(--primary-color)"}}> {paymentInfo.amount} fcfa </span>
+                    a bien été envoyé a
+                    <span className="fs-4"
+                          style={{color: "var(--primary-color)"}}> {paymentInfo.payment_number} </span>
+                    via l'operateur
+                    {paymentInfo.payment_mode === 'om'
+                      ?
+                      <span className="fs-4" style={{color: "var(--primary-color)"}}> Orange </span>
+                      :
+                      <span className="fs-4" style={{color: "var(--primary-color)"}}> MTN </span>
+                    }
+                  </p>
+                  <p className="text-black-50">Patientez quelques instant , un message flash s'affichera, dans le cas
+                    contraire,
+                    veuillez le saisir le </p>
+                  <p className="code_pay fw-bold"
+                     style={{color: paymentInfo.payment_mode === 'om' ? "orange" : '#FFFF43'}}>
+                    {paymentInfo.payment_mode === 'om' ? "#150*50#" : "*126#"}
+                  </p>
                 </div>
                 :
-                <span></span>
+                paymentStatus === "validate"
+                  ?
+                  <div className="w-100 px-5 text-center" style={{paddingTop: "100px"}}>
+                    <h3 className="fw-bold mb-5">Paiement effectuer avec succes</h3>
+                    {/*<h3 className=" ">Payment effectuer avec succes</h3>*/}
+                    <h5 className="fw-old text-black-50">Placement de la mise en cours....</h5>
+                    <ProgressBar striped variant="info" now={progressValidate}/>
+                  </div>
+                  :
+                  <span></span>
           }
         </div>
       }
@@ -196,6 +343,17 @@ export function Payment(): JSX.Element {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 }

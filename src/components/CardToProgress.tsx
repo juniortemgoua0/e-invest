@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   title: string,
-  subtitle: number,
+  subtitle: number | string | ((value: number)=> number),
   icon:string
 }
 

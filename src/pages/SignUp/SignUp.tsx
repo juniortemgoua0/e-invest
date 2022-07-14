@@ -16,7 +16,7 @@ export function SignUp(): JSX.Element {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false);
 
-  const URI = "https://e-invest-backend.herokuapp.com/"
+  const URI = process.env.REACT_APP_API_URI
 
   const handleSubmit = async (form: any) => {
     console.log(form)
@@ -43,8 +43,8 @@ export function SignUp(): JSX.Element {
       .catch(err => {
         setLoading(false)
         console.log(err)
-        if (err.response.data.statusCode === 401) {
-          toast.error('🦄 Numero de telephone deja utiliser', {
+        if (err && err.response?.data?.statusCode === 401) {
+          toast.error('Numero de telephone deja utiliser', {
             position: "top-right",
             autoClose: 10000,
             hideProgressBar: false,
@@ -55,9 +55,9 @@ export function SignUp(): JSX.Element {
             theme: "colored"
           });
         } else {
-          toast.error('🦄 Une erreur est survenue, reessayer plutard', {
+          toast.error('Une erreur est survenue, veuillez reessayer plutard !', {
             position: "top-right",
-            autoClose: 10000,
+            autoClose: 6000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
