@@ -7,11 +7,11 @@ type Props = {
   secondIcon: JSX.Element,
   firstText: {
     title: string,
-    amount: number
+    amount: number | string
   },
   secondText: {
     title: string,
-    amount: number
+    amount: number | string
   }
 }
 

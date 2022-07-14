@@ -1,7 +1,7 @@
 .semi-progress-circle {
   height: 200px;
   width: 250px;
-  position: relative
+  position: relative;
 }
 
 .progress-cover {
@@ -40,6 +40,7 @@
   right: 0;
 }
 
+
 @media screen and (max-width: 360px){
   .semi-progress-circle {
     height: 150px;
@@ -60,6 +61,12 @@
   .text-100 {
     right: -10px;
   }
+}
+
+.container-progress{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /*

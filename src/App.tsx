@@ -10,6 +10,7 @@ import {Payment} from "./pages/Payment/Payment";
 import {ModalWrap} from "./components/ModalWrap/ModalWrap";
 import {Layout} from "./pages/Layout/Layout";
 import {Withdraw} from "./pages/Withdraw/Withdraw";
+import {Setting} from "./pages/Setting/Setting";
 
 function App(): JSX.Element {
 
@@ -20,6 +21,7 @@ function App(): JSX.Element {
           <Route path="home" element={<Home/>}/>
           <Route path="transaction" element={<Transaction/>}/>
           <Route path="withdraw" element={<Withdraw/>}/>
+          <Route path="setting" element={<Setting/>}/>
         </Route>
         <Route path="sign-in" element={<SignIn/>}/>
         <Route path="sign-up" element={<SignUp/>}/>

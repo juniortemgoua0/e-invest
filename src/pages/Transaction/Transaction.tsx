@@ -1,15 +1,17 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./Transaction.css";
 import {Header} from "../../components/Header/Header";
-import {Avatar, Button, Fab, IconButton} from "@material-ui/core";
+import {Button, IconButton} from "@material-ui/core";
 import {useStyles} from "../SignIn/SignIn";
 import {CardTransaction} from "../../components/CardTransaction";
 import {CardAmount} from "../../components/CardAmount/CardAmount";
 import {RoundedIconCard} from "../../components/RoundedIconCard";
-import {NavBar} from "../../components/NavBar/NavBar";
 import {Link} from "react-router-dom";
-import {BiDownload, BsDownload} from "react-icons/all";
 import {TransactionTable} from "../../components/TransactionTable/TransactionTable";
+import {BsDownload} from "react-icons/all";
+import axios from "axios";
+import {LocalStorage} from "../../helpers/enums/localStorage.enum";
+import {toast, ToastContainer} from "react-toastify";
 
 
 export function Transaction(): JSX.Element {
@@ -87,9 +89,20 @@ export function Transaction(): JSX.Element {
         </div>
 
         <div className="mt-4">
-          <TransactionTable/>
+          <TransactionTable />
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 }
