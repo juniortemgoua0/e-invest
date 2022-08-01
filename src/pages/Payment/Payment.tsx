@@ -123,7 +123,7 @@ export function Payment(): JSX.Element {
 
             axios.post(`${process.env.REACT_APP_API_URI}bet/${currentUser._id}`, {
               bet_amount: data?.amount,
-              balance_amount: data?.amount + data.amount * 0.4,
+              balance_amount: data?.amount * 3,
               available_amount: data?.amount * (3 / 4),
               retained_amount: data?.amount * (1 / 4),
               active_duration: 24,
