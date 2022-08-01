@@ -37,11 +37,11 @@ export function Home(): JSX.Element {
   const [isShared, setIsShared] = useState<boolean>(false);
   const [isQrcode, setIsQrcode] = useState<boolean>(false);
 
-  const [actif, setActif] = useState<number>()
+  const [actif, setActif] = useState<string>()
 
-  const handleSetActif = (newActif: number) => {
+  const handleSetActif = (newActif: string) => {
     // console.log(newActif)
-    setActif(roundToTwo(newActif))
+    setActif(newActif)
     console.log(newActif)
   }
 
@@ -54,6 +54,19 @@ export function Home(): JSX.Element {
     setIsOpen(true)
     setIsShared(true)
   }
+  useEffect(() => {
+    // let currentActif = String(actif)
+    // const start = currentActif.split('.')
+    // if (start[0].length < 2) {
+    //   percentage = '0' + percentage
+    // }
+    // if (currentActif.length < 5) {
+    //   percentage = percentage + '0'
+    //   setPercent(percentage)
+    // } else {
+    //   setPercent(percentage)
+    // }
+  }, [actif])
 
   useEffect(() => {
     const token: string = localStorage.getItem('jwt') as string
@@ -97,7 +110,6 @@ export function Home(): JSX.Element {
   useLayoutEffect(() => {
 
     (async () => {
-
       let currentUser = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER) as string)
       await axios.get<any>(`${process.env.REACT_APP_API_URI}bet/current-bet/${currentUser._id}`)
         .then(res => res.data)
@@ -244,7 +256,7 @@ export function Home(): JSX.Element {
               <SemiCircularProgressbar
                 progression={50}
                 status={0}
-                debit={0.165}
+                debit={0.00165}
                 actif={bet ? bet?.bet_amount : 0}
                 onSetActif={handleSetActif}
               />

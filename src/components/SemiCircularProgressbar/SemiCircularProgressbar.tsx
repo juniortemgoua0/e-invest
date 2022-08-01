@@ -4,7 +4,6 @@ import './SemiCircularProgressbar.css';
 import axios from "axios";
 import {LocalStorage} from "../../helpers/enums/localStorage.enum";
 
-
 type State = {
   progression: number,
   progressionStep: "asc" | "desc" | "stop",
@@ -19,7 +18,7 @@ type Props = {
   actif: number,
   progression: number,
   status?: 0 | -1,
-  onSetActif: (actif: number) => void
+  onSetActif: (actif: string) => void
 }
 
 export function roundToTwo(number: number) {
@@ -30,7 +29,6 @@ export function roundToTwo(number: number) {
 
 export function SemiCircularProgressbar({debit, actif, progression, status, onSetActif}: Props) {
 
-
   const [state, setState] = useState<State>({
     progression: 0,
     progressionStep: "desc",
@@ -38,93 +36,218 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
     path: null,
     text: null,
   })
+  const factor = 3
+
+  const [counter, setCounter] = useState<number>(100 / factor);
+  const [actif2, setActif2] = useState<number>(actif);
+  const [stop, setStop] = useState<boolean>(false);
+  const [finish, setFinish] = useState<boolean>(false);
+  const [settings, setSettings] = useState<any>()
+  const [percent, setPercent] = useState<string>()
+
   let currentUser = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER) as string);
+  let currentBet = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_BET) as string);
 
   const circleProgressbarRef = useRef(null)
   let timer: number | undefined = undefined
   let i: number = progression;
   let actifProps: number = actif;
 
+
+
+  let decreaseInterval: number | undefined = undefined
+  const decreaseBet = () => {
+    let count: number = counter
+    if (decreaseInterval) {
+      window.clearInterval(decreaseInterval)
+    }
+    if (!stop) {
+      setActif2(currentBet.bet_amount);
+      setCounter(100 / factor);
+      decreaseInterval = window.setInterval(() => {
+        if (count < 0) {
+          setStop(true)
+          window.clearInterval(decreaseInterval);
+        } else {
+          setCounter(prevCounter => Math.round((prevCounter - 0.01) * 100) / 100)
+          count = (Math.round((count - 0.01) * 100) / 100)
+        }
+        setActif2((prevActif) =>
+          prevActif < 0
+            ? 0
+            : Math.round((prevActif - (factor * currentBet.bet_amount) / (100 * 100)) * 100) / 100
+        );
+      }, 5);
+    }
+  }
+
   useEffect(() => {
+    decreaseBet();
+  }, [stop]);
 
-    let progress = localStorage.getItem('progression')
-    let step = localStorage.getItem('progressionStep')
+  // Initialize of the increase features
+  let increaseInterval: number | undefined = undefined;
+  const increaseBet = () => {
+    let count: number = counter
 
-    if (progress) {
-      i = Number.parseInt(progress)
+    if (increaseInterval) {
+      window.clearInterval(increaseInterval)
+    }
+
+    if (stop && !finish) {
+      increaseInterval = window.setInterval(() => {
+        if (count < 100 && !finish) {
+          setCounter(prevCounter => Math.round((prevCounter + 0.01) * 100) / 100)
+          count = ((count + 0.01) * 100) / 100
+        } else {
+          // setCounter(100)
+          setFinish(true)
+          const currentBet = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_BET) as string)
+          axios.put(`${process.env.REACT_APP_API_URI}bet/${currentBet?._id}`, {
+            ...currentBet,
+            status: "Terminer"
+          })
+        }
+        setActif2((prevActif) =>
+          prevActif < currentBet.bet_amount * factor
+            ? Math.round((prevActif + (currentBet.bet_amount * factor) / (100 * 100)) * 100) / 100
+            : currentBet.bet_amount * factor
+        );
+      }, 5);
+
+      if (finish) {
+      }
+    }
+  };
+
+  useEffect(() => {
+    let pendingActif = String(actif2)
+    let currentActif = String(actif2).split('.')
+    if (currentActif[1]) {
+      if (currentActif[1].length < 2) {
+        pendingActif = pendingActif + '0'
+      }
+
+      let solde = String(currentBet.bet_amount * factor)
+      const actifLength = currentActif[0].length
+      const soldeLenght = solde.length
+      if (actifLength < soldeLenght) {
+        const rest = soldeLenght - actifLength
+        for (i = 0; i < rest; i++) {
+          pendingActif = '0' + pendingActif
+        }
+      }
+    }
+    onSetActif(pendingActif)
+  }, [actif2])
+
+  useEffect(() => {
+    let percentage = String(counter)
+    const start = percentage.split('.')
+    if (start[0].length < 2) {
+      percentage = '0' + percentage
+    }
+    if (percentage.length < 5 && percentage !== '100') {
+      percentage = percentage + '0'
+      setPercent(percentage)
     } else {
-      i = progression
+      setPercent(percentage)
     }
-
-    if (!step) {
-      step = 'desc'
-    }
-
-    if (status === 0) {
-      setState((state => ({...state, progression: progression})));
-
-      let progressTime: number = (debit as number) * 36
-
-      timer = window.setInterval(() => {
-          console.log('timer')
-          if (step === "desc") {
-            if (i <= 0) {
-              // this.setState((state, props) => ({progression: state.progression - 1}))
-              step = "asc"
-            }
-          } else if (step === "asc") {
-            if (i >= 0 && i < 100) {
-              // this.setState((state, props) => ({progression: state.progression + 1}))
-            } else if (i >= 100) {
-              step = "stop"
-              localStorage.removeItem('progressionStep')
-              timer = undefined
-              const currentBet = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_BET) as string)
-              axios.put(`${process.env.REACT_APP_API_URI}bet/${currentBet?._id}`, {
-                ...currentBet,
-                status: "Terminer"
-              })
-            }
-          }
-
-          if (step === "desc") {
-            setState(state => ({...state, progression: roundToTwo(i - 0.001)}));
-            i = i - 0.001;
-            localStorage.setItem("progression", i.toString());
-            onSetActif(actifProps - actifProps * 0.0002)
-            actifProps = actifProps - actifProps * 0.0002
-            // console.log('step ===> desc')
-            // console.log(this.state.progression)
-          } else if (step === "asc") {
-            localStorage.setItem('progressionStep', 'asc')
-            // console.log('step ===> asc')
-            setState(state => ({...state, progression: roundToTwo(i + 0.001)}))
-            i = i + 0.001
-            onSetActif(actifProps + actifProps * 0.002)
-            actifProps = actifProps + actifProps * 0.002
-            localStorage.setItem("progression", i.toString())
-          }
-        },
-        progressTime
-        // 100
-      )
-    }
-
-  }, [])
+  }, [counter])
 
   useEffect(() => {
-    (document.getElementsByClassName('CircularProgressbar-path')[0] as SVGPathElement).style.stroke = `hsl(${state.progression}, 100%, 50%)`;
-    (document.getElementsByClassName('solde-text')[0] as HTMLDivElement).style.color = `hsl(${state.progression}, 100%, 50%)`;
-    (document.getElementsByClassName('CircularProgressbar-text')[0] as SVGTextElement).style.fill = `hsl(${state.progression}, 100%, 50%)`
-  }, [state.progression])
+    increaseBet();
+  }, [stop, finish]);
+
+  //
+  // useEffect(() => {
+  //
+  //   let progress = localStorage.getItem('progression')
+  //   let step = localStorage.getItem('progressionStep')
+  //
+  //   if (progress) {
+  //     i = Number.parseInt(progress)
+  //   } else {
+  //     i = progression
+  //   }
+  //
+  //   if (!step) {
+  //     step = 'desc'
+  //   }
+  //
+  //   if (status === 0) {
+  //     setState((state => ({...state, progression: progression})));
+  //
+  //     let progressTime: number = (debit as number) * 36
+  //
+  //     timer = window.setInterval(() => {
+  //         console.log('timer')
+  //         if (step === "desc") {
+  //           if (i <= 0) {
+  //             // this.setState((state, props) => ({progression: state.progression - 1}))
+  //             step = "asc"
+  //           }
+  //         } else if (step === "asc") {
+  //           if (i >= 0 && i < 100) {
+  //             // this.setState((state, props) => ({progression: state.progression + 1}))
+  //           } else if (i >= 100) {
+  //             step = "stop"
+  //             localStorage.removeItem('progressionStep')
+  //             timer = undefined
+  //             const currentBet = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_BET) as string)
+  //             axios.put(`${process.env.REACT_APP_API_URI}bet/${currentBet?._id}`, {
+  //               ...currentBet,
+  //               status: "Terminer"
+  //             })
+  //           }
+  //         }
+  //
+  //         if (step === "desc") {
+  //           setState(state => ({...state, progression: roundToTwo(i - 0.001)}));
+  //           i = i - 0.001;
+  //           localStorage.setItem("progression", i.toString());
+  //
+  //           // Oretorune le nouvel actif en fonction de l'etat de progression --------------
+  //           onSetActif(actifProps * (progression / 100))
+  //           //------------------------------------------------------------------------------
+  //
+  //           actifProps = actifProps - actifProps * 0.0002
+  //           // console.log('step ===> desc')
+  //           // console.log(this.state.progression)
+  //         } else if (step === "asc") {
+  //           localStorage.setItem('progressionStep', 'asc')
+  //           // console.log('step ===> asc')
+  //           setState(state => ({...state, progression: roundToTwo(i + 0.001)}))
+  //           i = i + 0.001
+  //           onSetActif(actifProps + actifProps * 0.002)
+  //           actifProps = actifProps + actifProps * 0.002
+  //           localStorage.setItem("progression", i.toString())
+  //         }
+  //       },
+  //       progressTime
+  //       // 100
+  //     )
+  //   }
+  //
+  // }, [])
+
+  useEffect(() => {
+    // (document.getElementsByClassName('CircularProgressbar-path')[0] as SVGPathElement).style.stroke = `hsl(${state.progression}, 100%, 50%)`;
+    (document.getElementsByClassName('CircularProgressbar-path')[0] as SVGPathElement).style.stroke = `hsl(${counter}, 100%, 50%)`;
+    // (document.getElementsByClassName('solde-text')[0] as HTMLDivElement).style.color = `hsl(${state.progression}, 100%, 50%)`;
+    (document.getElementsByClassName('solde-text')[0] as HTMLDivElement).style.color = `hsl(${counter}, 100%, 50%)`;
+    // (document.getElementsByClassName('CircularProgressbar-text')[0] as SVGTextElement).style.fill = `hsl(${state.progression}, 100%, 50%)`
+    (document.getElementsByClassName('CircularProgressbar-text')[0] as SVGTextElement).style.fill = `hsl(${counter}, 100%, 50%)`
+  }, [state.progression, counter])
 
   return (
     <div className="container-progress">
       <div className="semi-progress-circle">
         <CircularProgressbar
           ref={circleProgressbarRef}
-          value={state.progression}
-          text={`${state.progression}%`}
+          // value={state.progression}
+          value={counter}
+          text={`${percent}%`}
           circleRatio={0.6}
           styles={{
             trail: {
