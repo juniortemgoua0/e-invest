@@ -27,7 +27,7 @@ export function Payment(): JSX.Element {
     amount: amountsOfBet[0],
     payment_mode: paymentMode[0],
     payment_number: ''
-  } as paymentInfo);
+  } as paymentInfo)
 
   const [loading, setLoading] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);

@@ -40,9 +40,7 @@ export function Home(): JSX.Element {
   const [actif, setActif] = useState<string>()
 
   const handleSetActif = (newActif: string) => {
-    // console.log(newActif)
     setActif(newActif)
-    console.log(newActif)
   }
 
   const handleQrCode = () => {
@@ -245,7 +243,7 @@ export function Home(): JSX.Element {
               bet ?
                 <>
                   <span className="opacity-50 fs-3">Debit de progression</span>
-                  <span className="fs-4"> {bet ? "70%" : "---"}</span>
+                  <span className="fs-4"> {bet ? "0.002%/ms" : "---"}</span>
                 </> :
                 <p>Vous n'avez pas de mise en cours</p>
             }

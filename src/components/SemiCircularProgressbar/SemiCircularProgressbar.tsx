@@ -54,7 +54,6 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
   let actifProps: number = actif;
 
 
-
   let decreaseInterval: number | undefined = undefined
   const decreaseBet = () => {
     let count: number = counter
@@ -78,11 +77,16 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
             : Math.round((prevActif - (factor * currentBet.bet_amount) / (100 * 100)) * 100) / 100
         );
       }, 5);
+    } else {
     }
   }
 
   useEffect(() => {
     decreaseBet();
+    return () => {
+      decreaseInterval = undefined
+      window.clearInterval(decreaseInterval)
+    }
   }, [stop]);
 
   // Initialize of the increase features
@@ -92,6 +96,7 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
 
     if (increaseInterval) {
       window.clearInterval(increaseInterval)
+      increaseInterval = undefined
     }
 
     if (stop && !finish) {
@@ -100,13 +105,16 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
           setCounter(prevCounter => Math.round((prevCounter + 0.01) * 100) / 100)
           count = ((count + 0.01) * 100) / 100
         } else {
-          // setCounter(100)
+          window.clearInterval(increaseInterval)
+          increaseInterval = undefined
           setFinish(true)
           const currentBet = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_BET) as string)
           axios.put(`${process.env.REACT_APP_API_URI}bet/${currentBet?._id}`, {
             ...currentBet,
-            status: "Terminer"
-          })
+            status: "Terminer",
+            end_of_bet: new Date()
+          }).then(r => console.log(r))
+            .catch(err => console.log(err))
         }
         setActif2((prevActif) =>
           prevActif < currentBet.bet_amount * factor
@@ -115,12 +123,22 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
         );
       }, 5);
 
-      if (finish) {
-      }
+    } else {
+      window.clearInterval(increaseInterval)
+      increaseInterval = undefined
     }
   };
 
   useEffect(() => {
+    increaseBet();
+    return () => {
+      increaseInterval = undefined
+      window.clearInterval(increaseInterval)
+    }
+  }, [stop, finish]);
+
+  useEffect(() => {
+    let solde = String(currentBet.bet_amount * factor)
     let pendingActif = String(actif2)
     let currentActif = String(actif2).split('.')
     if (currentActif[1]) {
@@ -128,7 +146,6 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
         pendingActif = pendingActif + '0'
       }
 
-      let solde = String(currentBet.bet_amount * factor)
       const actifLength = currentActif[0].length
       const soldeLenght = solde.length
       if (actifLength < soldeLenght) {
@@ -137,6 +154,16 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
           pendingActif = '0' + pendingActif
         }
       }
+    }else{
+      const actifLength = pendingActif.length
+      const soldeLenght = solde.length
+      if (actifLength < soldeLenght) {
+        const rest = soldeLenght - actifLength
+        for (i = 0; i < rest; i++) {
+          pendingActif = '0' + pendingActif
+        }
+      }
+      pendingActif = pendingActif + '.00'
     }
     onSetActif(pendingActif)
   }, [actif2])
@@ -155,9 +182,6 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
     }
   }, [counter])
 
-  useEffect(() => {
-    increaseBet();
-  }, [stop, finish]);
 
   //
   // useEffect(() => {

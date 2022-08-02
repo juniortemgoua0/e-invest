@@ -319,13 +319,13 @@ export function TransactionTable(): JSX.Element {
           ...value,
           createData(
             index + 1,
-            (bet?.start_of_bet),
+            (new Date(bet?.start_of_bet).toLocaleString()),
             bet?.bet_amount,
             bet?.balance_amount,
             bet?.available_amount,
             bet?.retained_amount,
             bet?.active_duration,
-            (new Date()).toLocaleDateString(),
+            (new Date(bet?.end_of_bet)).toLocaleString(),
             bet?.status)
         ])
       )
