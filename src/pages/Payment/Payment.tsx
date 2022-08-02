@@ -51,7 +51,7 @@ export function Payment(): JSX.Element {
     await axios.get(`${process.env.REACT_APP_API_URI}bet/check-bet/${currentUser?._id}`)
       .then(res => res.data)
       .then(data => {
-        localStorage.setItem('progression',"50")
+        localStorage.setItem('progression', "50")
         console.log(data)
         setIsOpen(true)
         window.setTimeout(() => {
@@ -124,8 +124,8 @@ export function Payment(): JSX.Element {
             axios.post(`${process.env.REACT_APP_API_URI}bet/${currentUser._id}`, {
               bet_amount: data?.amount,
               balance_amount: data?.amount * 3,
-              available_amount: data?.amount * (3 / 4),
-              retained_amount: data?.amount * (1 / 4),
+              available_amount: data?.amount * 3 * 0.75,
+              retained_amount: data?.amount * 3 * 0.25,
               active_duration: 24,
               payment_reference: data?.reference
             })
