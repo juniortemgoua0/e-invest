@@ -36,11 +36,16 @@ export function Home(): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isShared, setIsShared] = useState<boolean>(false);
   const [isQrcode, setIsQrcode] = useState<boolean>(false);
+  const [isFinish, setIsFinish] = useState<boolean>(false)
 
   const [actif, setActif] = useState<string>()
 
   const handleSetActif = (newActif: string) => {
     setActif(newActif)
+  }
+
+  const handleSetFinishBet = (isFinish: boolean) => {
+    setIsFinish(isFinish)
   }
 
   const handleQrCode = () => {
@@ -52,19 +57,6 @@ export function Home(): JSX.Element {
     setIsOpen(true)
     setIsShared(true)
   }
-  useEffect(() => {
-    // let currentActif = String(actif)
-    // const start = currentActif.split('.')
-    // if (start[0].length < 2) {
-    //   percentage = '0' + percentage
-    // }
-    // if (currentActif.length < 5) {
-    //   percentage = percentage + '0'
-    //   setPercent(percentage)
-    // } else {
-    //   setPercent(percentage)
-    // }
-  }, [actif])
 
   useEffect(() => {
     const token: string = localStorage.getItem('jwt') as string
@@ -257,28 +249,31 @@ export function Home(): JSX.Element {
                 debit={0.00165}
                 actif={bet ? bet?.bet_amount : 0}
                 onSetActif={handleSetActif}
+                onSetFinish={handleSetFinishBet}
               />
               :
-              <div className="semi-progress-circle">
-                <CircularProgressbar
-                  value={0}
-                  circleRatio={0.6}
-                  styles={{
-                    trail: {
-                      transform: 'rotate(-108deg)',
-                      transformOrigin: 'center center'
-                    },
-                    path: {
-                      transform: 'rotate(-108deg)',
-                      transformOrigin: 'center center'
-                    }
-                  }}
-                />
-                <div className="d-flex flex-column align-items-center text-black position-absolute actif-group">
-                  <img src="/img/icon_graph_up.svg" alt=""/>
+              <div className="container-progress">
+                <div className="semi-progress-circle">
+                  <CircularProgressbar
+                    value={0}
+                    circleRatio={0.6}
+                    styles={{
+                      trail: {
+                        transform: 'rotate(-108deg)',
+                        transformOrigin: 'center center'
+                      },
+                      path: {
+                        transform: 'rotate(-108deg)',
+                        transformOrigin: 'center center'
+                      }
+                    }}
+                  />
+                  <div className="d-flex flex-column align-items-center text-black position-absolute actif-group">
+                    <img src="/img/icon_graph_up.svg" alt=""/>
+                  </div>
+                  <div className="percent-text text-0 fs-4">0%</div>
+                  <div className="percent-text text-100 fs-4">100%</div>
                 </div>
-                <div className="percent-text text-0 fs-4">0%</div>
-                <div className="percent-text text-100 fs-4">100%</div>
               </div>
           }
           <div className=" pb-5" style={{width: "100%"}}>
@@ -291,7 +286,7 @@ export function Home(): JSX.Element {
               icon="/img/icon_check_with_card_blue.svg"
             />
             <CardToProgress
-              title="Solde" subtitle={bet ? bet?.balance_amount : "---"}
+              title="Solde" subtitle={isFinish ? bet ? bet?.balance_amount : "---" : "---"}
               icon="/img/icon_check_with_card_green.svg"
             />
           </div>
@@ -315,8 +310,8 @@ export function Home(): JSX.Element {
             secondIcon={<RoundedIconCard color="#000000" size={70}>
               <img src="/img/icon_package.svg" height={40} width={40} alt=""/>
             </RoundedIconCard>}
-            firstText={{title: "Disponible", amount: bet ? 2000 : '---'}}
-            secondText={{title: "Retenu", amount: bet ? 4000 : '---'}}
+            firstText={{title: "Disponible", amount: isFinish ? bet ? bet?.available_amount : '---' : '---'}}
+            secondText={{title: "Retenu", amount: isFinish ? bet ? bet?.retained_amount : '---' : '---'}}
           />
         </div>
       </div>

@@ -23,16 +23,17 @@
 }
 
 .cover{
-  position: absolute;
+  position: fixed;
   background-color: white;
   inset: 10px;
   z-index: 50000;
   box-shadow: 0 0 100px 10px #ccc;
   border-radius: 5px;
+  overflow-y: scroll;
 }
 
 .cover_closer{
-  position: absolute;
+  position: fixed;
   top: 10px;
   right: 10px;
   background-color: gray;

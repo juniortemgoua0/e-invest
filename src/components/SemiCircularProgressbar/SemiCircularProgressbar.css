@@ -47,6 +47,10 @@
     width: 180px;
   }
 
+  .actif-group {
+    top: 70px;
+  }
+
   .percent-text {
 
     bottom: -10px;

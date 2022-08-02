@@ -57,11 +57,12 @@ export function Transaction(): JSX.Element {
               </Button>
             </Link>
           </div>
-
         </div>
       </div>
-      <div className="w-100 px-3 pt-3 d-flex flex-column position-relative mb-5"
-           style={{backgroundColor: "var(--primary-color)", paddingBottom: "50px"}}>
+
+      <div
+        className="w-100 px-3 pt-3 d-flex flex-column position-relative mb-5"
+        style={{backgroundColor: "var(--primary-color)", paddingBottom: "50px"}}>
         <CardTransaction amount={2000} date="Samedi 24 juin 2022" type="bet" totalGain={6000}/>
         <CardTransaction amount={4000} date="Lundi 19 juin 2022" type="withdraw" status="validate"/>
         <CardTransaction amount={2000} date="Jeudi 22 juin 2022" type="withdraw" status="waitting"/>
@@ -90,7 +91,7 @@ export function Transaction(): JSX.Element {
         </div>
 
         <div className="mt-4">
-          <TransactionTable />
+          <TransactionTable/>
         </div>
       </div>
       <ToastContainer
