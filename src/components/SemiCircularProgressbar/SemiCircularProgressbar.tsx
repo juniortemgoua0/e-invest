@@ -45,6 +45,7 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
   const [finish, setFinish] = useState<boolean>(false);
   const [settings, setSettings] = useState<any>()
   const [percent, setPercent] = useState<string>()
+  const [isOnZero , setIsOnZero] = useState<boolean>(false)
 
   let currentUser = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER) as string);
   let currentBet = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_BET) as string);
@@ -65,7 +66,8 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
       setActif2(currentBet.bet_amount);
       setCounter(100 / factor);
       decreaseInterval = window.setInterval(() => {
-        if (count < 0) {
+
+        if (count === 0) {
           setStop(true)
           window.clearInterval(decreaseInterval);
         } else {
@@ -77,7 +79,7 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
             ? 0
             : Math.round((prevActif - (factor * currentBet.bet_amount) / (100 * 100)) * 100) / 100
         );
-      }, 5);
+      }, 1);
     } else {
     }
   }
@@ -123,8 +125,7 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
             ? Math.round((prevActif + (currentBet.bet_amount * factor) / (100 * 100)) * 100) / 100
             : currentBet.bet_amount * factor
         );
-      }, 5);
-
+      }, 1);
     } else {
       window.clearInterval(increaseInterval)
       increaseInterval = undefined
@@ -132,7 +133,12 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
   };
 
   useEffect(() => {
-    increaseBet();
+    if (counter === 0)
+      setIsOnZero(true)
+      window.setTimeout(()=> {
+        setIsOnZero(false)
+        increaseBet();
+      }, 3000)
     return () => {
       increaseInterval = undefined
       window.clearInterval(increaseInterval)
@@ -182,6 +188,9 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
     } else {
       setPercent(percentage)
     }
+    if(counter=== 0){
+      setPercent(String(0))
+    }
   }, [counter])
 
 
@@ -214,6 +223,9 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
           <img src="/img/icon_graph_up.svg" alt=""/>
         </div>
         <div className="solde-text">Solde</div>
+        {
+          isOnZero && <span className='blue-point'></span>
+        }
         <div className="percent-text text-0 fs-4">0%</div>
         <div className="percent-text text-100 fs-4">100%</div>
       </div>
