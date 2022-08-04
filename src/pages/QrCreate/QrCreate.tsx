@@ -77,7 +77,7 @@ export function QrCreate(): JSX.Element {
             <QRCodeCanvas
               className="my-5"
               value={qrCodeValue}
-              size={300}
+              size={150}
               renderAs="canvas"/>
             :
             <MoonLoader size={100}/>
