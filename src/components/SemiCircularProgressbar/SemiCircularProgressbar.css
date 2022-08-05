@@ -78,6 +78,13 @@
   .text-100 {
     right: -10px;
   }
+
+  .blue-point{
+    left: 3px;
+    bottom: 27px;
+    width: 17px;
+    height: 17px;
+  }
 }
 
 .container-progress{

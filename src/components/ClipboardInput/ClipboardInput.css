@@ -1,0 +1,21 @@
+.clipboard-input{
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  height: 46px;
+  width: 100%;
+  padding-left: 10px;
+  outline: none;
+  color: white;
+  background-color: var(--primary-color);
+  padding-right: 35px;
+}
+
+.clipboard-copy{
+  position: absolute;
+  width: 30px;
+  right: 1px;
+  top: 1px;
+  bottom: 1px;
+  background-color: white;
+  border-radius: 0 5px 5px 0;
+}

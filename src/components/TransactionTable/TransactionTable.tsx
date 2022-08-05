@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./TransactionTable.css"
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -15,6 +16,7 @@ import {LocalStorage} from "../../helpers/enums/localStorage.enum";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {BsCheck2All} from "react-icons/all";
+import {ScaleLoader} from "react-spinners";
 
 
 interface Column {
@@ -257,8 +259,7 @@ export function TransactionTable(): JSX.Element {
 
   const [rows, setRows] = useState<Data[]>([])
   const [betData, setBetData] = useState<any[]>([])
-  // const [total, setTotal] = useState<Data>({} as Data)
-
+const [isLoading, setIsLoading] = useState<boolean>(false)
   const currentUser = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER) as string)
 
   const [page, setPage] = useState(0);
@@ -293,6 +294,7 @@ export function TransactionTable(): JSX.Element {
         .then(res => res?.data)
         .then(data => {
           console.log(data)
+          setIsLoading(true)
           setBetData(data)
         })
         .catch(err => {
@@ -351,7 +353,13 @@ export function TransactionTable(): JSX.Element {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            { !isLoading ?
+              <TableRow tabIndex={-1} className="w-100 ps-3 d-flex justify-content-center align-items-center">
+                <TableCell colSpan={9} align={'center'}>
+                  <ScaleLoader color="#000000"/>
+                </TableCell>
+              </TableRow>
+              : rows
               .reverse()
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {

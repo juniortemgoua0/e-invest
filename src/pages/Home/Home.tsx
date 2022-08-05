@@ -1,6 +1,6 @@
 import React, {useEffect, useLayoutEffect, useState} from "react";
 import "./Home.css";
-import {roundToTwo, SemiCircularProgressbar} from "../../components/SemiCircularProgressbar/SemiCircularProgressbar";
+import {SemiCircularProgressbar} from "../../components/SemiCircularProgressbar/SemiCircularProgressbar";
 import {Header} from "../../components/Header/Header";
 import {AppName} from "../../components/AppName";
 import {useStyles} from "../SignIn/SignIn";
@@ -16,9 +16,19 @@ import {RoundedIconCard} from "../../components/RoundedIconCard";
 import {CircularProgressbar} from "react-circular-progressbar";
 import {LocalStorage} from "../../helpers/enums/localStorage.enum";
 import {Fab, Action} from 'react-tiny-fab';
-import {BsFacebook, BsWhatsapp, FiShare2, ImTwitter, MdAdd, TbQrcode} from "react-icons/all";
-import {ProgressBar} from "react-bootstrap";
+import { FiShare2, MdAdd, TbQrcode} from "react-icons/all";
 import QRCodeCanvas from "qrcode.react";
+import {
+  FacebookIcon,
+  FacebookShareButton,
+  LinkedinIcon,
+  LinkedinShareButton, TelegramIcon, TelegramShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+  WhatsappIcon,
+  WhatsappShareButton
+} from "react-share";
+import {ClipboardInput} from "../../components/ClipboardInput/ClipboardInput";
 
 const mainButtonStyles: React.CSSProperties = {
   bottom: "60px",
@@ -164,27 +174,20 @@ export function Home(): JSX.Element {
                 <p className="text-black-50">
                   En uitlisant ce lien, vous pourrez partager l'application a travers vos differents reseaux sociaux
                 </p>
-                <p className="100%">
-                  <span
-                    className="p-3"
-                    style={{
-                      border: "1px solid var(--border-color)",
-                      borderRadius: "5px",
-                      height: "46px",
-                      width: "100%",
-                      paddingLeft: "10px",
-                      outline: "none"
-                    }}
-                  >
-                    <span className="text-decoration-underline ">
-                      https://e-invest.com/?user=junior-temgoua
-                    </span>
-                  </span>
-                </p>
+                <ClipboardInput value={"https://e-invest.herokuapp.com/home"}/>
                 <div className="d-flex justify-content-around mt-4">
-                  <ImTwitter size={60} color="blue"/>
-                  <BsWhatsapp size={60} color="green"/>
-                  <BsFacebook size={60} color="blue"/>
+                  <TwitterShareButton  type={'submit'} url={'https://e-invest.herokuapp.com/home'}>
+                    <TwitterIcon size={60} round={true} />
+                  </TwitterShareButton>
+                  < WhatsappShareButton type={'submit'}  url={"https://e-invest.herokuapp.com/home"} >
+                    <WhatsappIcon size={60} round={true} />
+                  </WhatsappShareButton>
+                  <FacebookShareButton type={'submit'} url={'https://e-invest.herokuapp.com/home'}>
+                    <FacebookIcon size={60} round={true} />
+                  </FacebookShareButton>
+                  <TelegramShareButton type={'submit'} url={'https://e-invest.herokuapp.com/home'}>
+                    <TelegramIcon size={60} round={true}/>
+                  </TelegramShareButton>
                 </div>
               </div>
               :
@@ -230,7 +233,7 @@ export function Home(): JSX.Element {
       </div>
       <div className="semi-progress-circle-contain  pt-5 position-relative">
         <div className="text-white d-flex flex-column align-items-cente ">
-          <div className="d-flex flex-column align-items-center mb-2 ">
+          <div className="d-flex flex-column align-items-center mb-5 ">
             {
               bet ?
                 <>
