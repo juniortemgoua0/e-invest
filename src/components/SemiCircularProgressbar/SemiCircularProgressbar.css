@@ -53,38 +53,37 @@
 
 
 @media screen and (max-width: 360px){
-  .semi-progress-circle {
-    height: 150px;
-    width: 180px;
-    left: 10px;
-    bottom: 20px;
-  }
+  /*.semi-progress-circle {*/
+  /*  height: 150px;*/
+  /*  width: 220px;*/
+  /*  left: 10px;*/
+  /*  bottom: 20px;*/
+  /*}*/
 
-  .actif-group {
-    top: 70px;
-  }
+  /*.actif-group {*/
+  /*  top: 70px;*/
+  /*}*/
 
-  .percent-text {
+  /*.percent-text {*/
+  /*  bottom: -10px;*/
+  /*  color: rgba(255, 255, 255, 0.8);*/
+  /*}*/
 
-    bottom: -10px;
-    color: rgba(255, 255, 255, 0.8);
-  }
 
+  /*.text-0 {*/
+  /*  left: 5px;*/
+  /*}*/
 
-  .text-0 {
-    left: 5px;
-  }
+  /*.text-100 {*/
+  /*  right: -10px;*/
+  /*}*/
 
-  .text-100 {
-    right: -10px;
-  }
-
-  .blue-point{
-    left: 3px;
-    bottom: 27px;
-    width: 17px;
-    height: 17px;
-  }
+  /*.blue-point{*/
+  /*  left: 3px;*/
+  /*  bottom: 27px;*/
+  /*  width: 17px;*/
+  /*  height: 17px;*/
+  /*}*/
 }
 
 .container-progress{

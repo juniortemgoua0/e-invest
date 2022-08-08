@@ -16,7 +16,7 @@ import {RoundedIconCard} from "../../components/RoundedIconCard";
 import {CircularProgressbar} from "react-circular-progressbar";
 import {LocalStorage} from "../../helpers/enums/localStorage.enum";
 import {Fab, Action} from 'react-tiny-fab';
-import { FiShare2, MdAdd, TbQrcode} from "react-icons/all";
+import {FiShare2, MdAdd, TbQrcode} from "react-icons/all";
 import QRCodeCanvas from "qrcode.react";
 import {
   FacebookIcon,
@@ -46,7 +46,8 @@ export function Home(): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isShared, setIsShared] = useState<boolean>(false);
   const [isQrcode, setIsQrcode] = useState<boolean>(false);
-  const [isFinish, setIsFinish] = useState<boolean>(false)
+  const [isFinish, setIsFinish] = useState<boolean>(false);
+  const [isButtonBetDisabled, setIsButtonBetDisabled] = useState<boolean>(false)
 
   const [actif, setActif] = useState<string>()
 
@@ -56,6 +57,7 @@ export function Home(): JSX.Element {
 
   const handleSetFinishBet = (isFinish: boolean) => {
     setIsFinish(isFinish)
+    setIsButtonBetDisabled(false)
   }
 
   const handleQrCode = () => {
@@ -73,14 +75,11 @@ export function Home(): JSX.Element {
     if (!token) {
       navigate('/sign-in')
     }
-    console.log(actif)
-    // @ts-ignore
-    const userId = location.state?.data.id as string
-
     (async () => {
-      let currentUser = localStorage.getItem(LocalStorage.CURRENT_USER)
+      let currentUser = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER) as string);
+
       if (!currentUser) {
-        await axios.get<User>(`${process.env.REACT_APP_API_URI}user/${userId}`)
+        await axios.get<User>(`${process.env.REACT_APP_API_URI}user/${currentUser._id}`)
           .then(res => res.data)
           .then((data: User) => {
             console.log(data)
@@ -91,19 +90,6 @@ export function Home(): JSX.Element {
       }
     })()
 
-    //@ts-ignore
-    if (location.state?.data) {
-      toast.success('Connexion reussite avec succès !', {
-        position: "top-right",
-        autoClose: 6000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored"
-      });
-    }
   }, [])
 
 
@@ -119,6 +105,7 @@ export function Home(): JSX.Element {
             localStorage.setItem(LocalStorage.CURRENT_BET, JSON.stringify(data))
             setBet(data)
             setActif(data?.bet_amount)
+            setIsButtonBetDisabled(true)
           }
         })
         .catch(err => {
@@ -176,14 +163,14 @@ export function Home(): JSX.Element {
                 </p>
                 <ClipboardInput value={"https://e-invest.herokuapp.com/home"}/>
                 <div className="d-flex justify-content-around mt-4">
-                  <TwitterShareButton  type={'submit'} url={'https://e-invest.herokuapp.com/home'}>
-                    <TwitterIcon size={60} round={true} />
+                  <TwitterShareButton type={'submit'} url={'https://e-invest.herokuapp.com/home'}>
+                    <TwitterIcon size={60} round={true}/>
                   </TwitterShareButton>
-                  < WhatsappShareButton type={'submit'}  url={"https://e-invest.herokuapp.com/home"} >
-                    <WhatsappIcon size={60} round={true} />
+                  < WhatsappShareButton type={'submit'} url={"https://e-invest.herokuapp.com/home"}>
+                    <WhatsappIcon size={60} round={true}/>
                   </WhatsappShareButton>
                   <FacebookShareButton type={'submit'} url={'https://e-invest.herokuapp.com/home'}>
-                    <FacebookIcon size={60} round={true} />
+                    <FacebookIcon size={60} round={true}/>
                   </FacebookShareButton>
                   <TelegramShareButton type={'submit'} url={'https://e-invest.herokuapp.com/home'}>
                     <TelegramIcon size={60} round={true}/>
@@ -212,26 +199,24 @@ export function Home(): JSX.Element {
       <Header>
         Hey Junior <img className="ms-2" src="/img/icon_hand.svg" alt=""/>
       </Header>
-      <div className="card-description mx-4 d-flex flex-column py-3 px-3 mb-4 ">
-        <h1 className="fw-bold text-black-50 mb-4">Bienvenu sur <AppName color="black" fontSize={26}/></h1>
-        <p className="text-black-50">
-            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Adipisci blanditiis deserunt doloremque eius facilis inventore ipsa itaque pariatur qui
-            quisquam,
-            </span>
-          <SkeletonTheme/>
-        </p>
-        <Link to="/payment/bet" style={{textDecoration: "none"}}>
-          <Button
-            className={classes.primary}
-            variant="contained"
-            color="primary"
-            startIcon={<img src="/img/icon_plus.svg" alt=""/>}>
-            Nouvelle mise
-          </Button>
-        </Link>
-      </div>
-      <div className="semi-progress-circle-contain  pt-5 position-relative">
+      <div className="semi-progress-circle-contain w-100  pt-3 position-relative">
+        <div className="full-card-home mb-3">
+          <div className="p-2 d-flex flex-column align-items-center w-100 bg-white card-container rounded-3">
+            <div className="d-flex align-items-center justify-content-center w-100 my-4">
+              <Link to="/payment/bet" style={{textDecoration: "none"}} className="w-100">
+                <Button
+                  className={classes.primary}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<img src="/img/icon_plus.svg" alt=""/>}
+                >
+                  Nouvelle mise
+                </Button>
+              </Link>
+            </div>
+            <div className="w-50 divider"></div>
+          </div>
+        </div>
         <div className="text-white d-flex flex-column align-items-cente ">
           <div className="d-flex flex-column align-items-center mb-5 ">
             {
@@ -279,7 +264,7 @@ export function Home(): JSX.Element {
                 </div>
               </div>
           }
-          <div className=" pb-5" style={{width: "100%"}}>
+          <div className="" style={{width: "100%"}}>
             <CardToProgress
               title="Actif" subtitle={actif ? actif : bet ? bet?.bet_amount : "---"}
               icon="/img/icon_check_with_card_yellow.svg"
@@ -294,18 +279,7 @@ export function Home(): JSX.Element {
             />
           </div>
         </div>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-        <div className="position-absolute  card-amount-container px-3">
+        <div className=" card-amount-container full-card-home mb-3">
           <CardAmount
             firstIcon={<RoundedIconCard color="#E76508" size={70}>
               <img src="/img/icon_assign.svg" height={40} width={40} alt=""/>
@@ -338,6 +312,17 @@ export function Home(): JSX.Element {
           <FiShare2 size={24}/>
         </Action>
       </Fab>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 }

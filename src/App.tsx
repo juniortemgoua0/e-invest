@@ -11,6 +11,7 @@ import {ModalWrap} from "./components/ModalWrap/ModalWrap";
 import {Layout} from "./pages/Layout/Layout";
 import {Withdraw} from "./pages/Withdraw/Withdraw";
 import {Setting} from "./pages/Setting/Setting";
+import {Enter} from "./Enter/Enter";
 
 function App(): JSX.Element {
 
@@ -18,6 +19,7 @@ function App(): JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout/>}>
+          <Route path="enter" element={<Enter/>}/>
           <Route path="home" element={<Home/>}/>
           <Route path="transaction" element={<Transaction/>}/>
           <Route path="withdraw" element={<Withdraw/>}/>

@@ -19,7 +19,7 @@ type Props = {
   progression: number,
   status?: 0 | -1,
   onSetActif: (actif: string) => void,
-  onSetFinish: (isFinish: boolean) => void
+  onSetFinish: (isFinish: boolean) => void,
 }
 
 export function roundToTwo(number: number) {
@@ -133,7 +133,7 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
   };
 
   useEffect(() => {
-    if (counter === 0)
+    if (counter === 0.01)
       setIsOnZero(true)
       window.setTimeout(()=> {
         setIsOnZero(false)
@@ -196,7 +196,7 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
 
   useEffect(() => {
     (document.getElementsByClassName('CircularProgressbar-path')[0] as SVGPathElement).style.stroke = `hsl(${counter}, 100%, 50%)`;
-    (document.getElementsByClassName('solde-text')[0] as HTMLDivElement).style.color = `hsl(${counter}, 100%, 50%)`;
+    // (document.getElementsByClassName('solde-text')[0] as HTMLDivElement).style.color = `hsl(${counter}, 100%, 50%)`;
     (document.getElementsByClassName('CircularProgressbar-text')[0] as SVGTextElement).style.fill = `hsl(${counter}, 100%, 50%)`
   }, [counter])
 
@@ -222,7 +222,7 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
         <div className="d-flex flex-column align-items-center text-black position-absolute actif-group">
           <img src="/img/icon_graph_up.svg" alt=""/>
         </div>
-        <div className="solde-text">Solde</div>
+        {/*<div className="solde-text">Solde</div>*/}
         {
           isOnZero && <span className='blue-point'></span>
         }

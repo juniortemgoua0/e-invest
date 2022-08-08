@@ -1,0 +1,6 @@
+version: "3.8"
+
+
+
+# To define Project name in Docker Compose Containers and avoid to automatically take the name of folder
+# https://code.visualstudio.com/remote/advancedcontainers/set-docker-compose-project-name

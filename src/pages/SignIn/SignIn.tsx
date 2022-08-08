@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, { useState} from "react";
 import "./SignIn.css";
 import {AppName} from "../../components/AppName";
 import {Button} from "@material-ui/core";
@@ -57,7 +57,7 @@ export function SignIn(): JSX.Element {
       .then(data => {
         localStorage.setItem('jwt', data.access_token)
         window.setTimeout(() => {
-          navigate(`/home`, {state: {data: data}})
+          navigate(`/enter`, {state: {data: data}})
         }, 500)
       })
       .catch(err => {

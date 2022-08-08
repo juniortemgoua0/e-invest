@@ -1,0 +1,7 @@
+{$HOST_DOMAIN} {
+    tls /etc/caddy/certs/{$HOST_DOMAIN}+3.pem /etc/caddy/certs/{$HOST_DOMAIN}+3-key.pem
+	root * /var/www/html/public
+	encode zstd gzip
+	file_server
+	php_fastcgi {$APP_HOSTNAME}:{$APP_PORT}
+}

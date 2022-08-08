@@ -8,7 +8,7 @@
 
 .semi-progress-circle-contain {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   background-color: var(--primary-color)!important;
   width: 100%;
@@ -27,6 +27,9 @@
   box-shadow: 0 9px 49px 0 rgba(0, 0, 0, .1);
 }
 
+.full-card-home{
+  width: 90%;
+}
 
 
 .card-amount-container{

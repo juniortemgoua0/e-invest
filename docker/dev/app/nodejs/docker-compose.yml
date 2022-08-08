@@ -1,0 +1,27 @@
+version: "3.8"
+
+volumes:
+  node_modules:
+    external: true
+
+services:
+  app-node:
+    build:
+      context: $COMPOSE_BUILD_DIR
+      dockerfile: docker/${SERVICE_ENV}/app/nodejs/Dockerfile
+    env_file:
+      - .env
+    hostname: $APP_HOSTNAME
+    container_name: $APP_NAME
+    stdin_open: true
+    tty: true
+    volumes:
+      - type: bind
+        source: $COMPOSE_BUILD_DIR
+        target: /app
+      - type: volume
+        source: node_modules
+        target: /app/node_modules
+    ports:
+      - "${APP_PORT}:3000"
+
