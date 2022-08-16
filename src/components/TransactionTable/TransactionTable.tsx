@@ -209,7 +209,6 @@ export function TransactionTable({onSetTotalOfAccount}: Props): JSX.Element {
     onSetTotalOfAccount([totalAvailable.toString(), totalRetained.toString()])
   }, [rows])
 
-
   return (
     <Paper style={{width: '100%', overflow: 'hidden', fontSize: "17px"}}>
       <TableContainer style={{maxHeight: 440}}>
@@ -229,10 +228,13 @@ export function TransactionTable({onSetTotalOfAccount}: Props): JSX.Element {
           </TableHead>
           <TableBody>
             {!isLoading ?
-              <TableRow tabIndex={-1} className="w-100 ps-3 d-flex justify-content-center align-items-center">
-                <TableCell colSpan={9} align={'center'}>
-                  <ScaleLoader color="#000000"/>
-                </TableCell>
+              <TableRow  role="checkbox" tabIndex={-1}>
+
+                {columns.map(column =>
+                  <TableCell align={'center'}>
+                    <ScaleLoader color="#000000"/>
+                  </TableCell>)}
+
               </TableRow>
               : rows
                 .reverse()
@@ -253,8 +255,8 @@ export function TransactionTable({onSetTotalOfAccount}: Props): JSX.Element {
                                 value === 'Terminer' ?
                                   <BsCheck2All size={32} color="green"/> : value === 'En cours' ? value + '...' : ""
                                 :
-                                row.number === rows.length && row.status ==='En cours' && (column.id === Bet.RETAINED  || column.id === Bet.AVAILABLE || column.id === Bet.END_OF_BET || column.id === Bet.BALANCE || column.id === Bet.ACTIVE_DURATION ) ? '-' :
-                                column.format &&
+                                row.number === rows.length && row.status === 'En cours' && (column.id === Bet.RETAINED || column.id === Bet.AVAILABLE || column.id === Bet.END_OF_BET || column.id === Bet.BALANCE || column.id === Bet.ACTIVE_DURATION) ? '-' :
+                                  column.format &&
                                   typeof value === 'number' ? column.format(value) : String(value) === 'Invalid Date' ? '-' :
                                     value
                             }
