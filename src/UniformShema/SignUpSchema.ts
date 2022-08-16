@@ -5,6 +5,7 @@ type SignUp = {
   first_name: string,
   last_name: string,
   email: string,
+  adresse: string,
   phone_number: string,
   password: string,
   confirm_password: string,
@@ -27,6 +28,11 @@ const SignUpSchema = {
   email: {
     __type__: String,
     label: "Email"
+  },
+  adresse: {
+    __type__: String,
+    required: true,
+    label: "Adresse"
   },
   phone_number: {
     __type__: Number,
@@ -63,6 +69,10 @@ const SignUpSchemaValidator = (model: any) => {
 
   if (!model.phone_number) {
     error.phone_number = ' Numero de telephone requis ';
+  }
+
+  if (!model.adresse) {
+    error.adresse = 'Adresse est requis';
   }
 
   if (!model.password) {

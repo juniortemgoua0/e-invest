@@ -75,7 +75,13 @@ img {
 
 input[type="text"],
 input[type="password"],
-input[type="number"] {
+input[type="number"],
+select.ui
+{
+  height: 46px
+}
+
+.ui.form .field > .selection.dropdown {
   height: 46px
 }
 

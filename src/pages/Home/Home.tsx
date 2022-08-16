@@ -2,12 +2,10 @@ import React, {useEffect, useLayoutEffect, useState} from "react";
 import "./Home.css";
 import {SemiCircularProgressbar} from "../../components/SemiCircularProgressbar/SemiCircularProgressbar";
 import {Header} from "../../components/Header/Header";
-import {AppName} from "../../components/AppName";
 import {useStyles} from "../SignIn/SignIn";
 import {Button} from "@material-ui/core";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
-import {SkeletonTheme} from "react-loading-skeleton";
 import axios from "axios";
 import {User} from "../../models/user.model";
 import {CardToProgress} from "../../components/CardToProgress";
@@ -21,8 +19,7 @@ import QRCodeCanvas from "qrcode.react";
 import {
   FacebookIcon,
   FacebookShareButton,
-  LinkedinIcon,
-  LinkedinShareButton, TelegramIcon, TelegramShareButton,
+  TelegramIcon, TelegramShareButton,
   TwitterIcon,
   TwitterShareButton,
   WhatsappIcon,
@@ -38,7 +35,6 @@ const mainButtonStyles: React.CSSProperties = {
 export function Home(): JSX.Element {
 
   const classes = useStyles();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [user, setUser] = useState<User>()
@@ -71,6 +67,7 @@ export function Home(): JSX.Element {
   }
 
   useEffect(() => {
+    console.log(process.env.REACT_APP_API_URI)
     const token: string = localStorage.getItem('jwt') as string
     if (!token) {
       navigate('/sign-in')

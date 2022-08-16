@@ -1,9 +1,8 @@
 import React from "react";
 import {NavBar} from "../../components/NavBar/NavBar";
-import {Outlet, useNavigate} from "react-router-dom";
+import {Outlet} from "react-router-dom";
 
 export function Layout(): JSX.Element {
-  const navigate = useNavigate()
 
   return (
     <div className="vh-100  home-contain">

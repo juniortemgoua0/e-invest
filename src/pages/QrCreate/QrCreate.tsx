@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./QrCreate.css"
 import {AppName} from "../../components/AppName";
 import {Button} from "@material-ui/core";
@@ -6,7 +6,7 @@ import {useStyles} from "../SignIn/SignIn";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {MoonLoader, ScaleLoader} from "react-spinners";
 import QRCodeCanvas from "qrcode.react";
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 
 export function QrCreate(): JSX.Element {
 

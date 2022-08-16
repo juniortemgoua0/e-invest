@@ -5,10 +5,19 @@ import {Button} from "@material-ui/core";
 import {useStyles} from "../SignIn/SignIn";
 import {Link, useNavigate} from "react-router-dom";
 import {ScaleLoader} from "react-spinners";
-import {AutoField, AutoForm, BoolField, ErrorField, SubmitField} from "uniforms-semantic";
+import {AutoField, AutoForm, BoolField, ErrorField, SelectField, SubmitField} from "uniforms-semantic";
 import {bridge as schema} from "../../UniformShema/SignUpSchema";
 import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
+
+const addresses = [
+  'Bepepnda',
+  'Bonamoussadi',
+  'Makepe',
+  'Pk14',
+  'Logbessou',
+  'Ndokotti',
+];
 
 export function SignUp(): JSX.Element {
 
@@ -112,7 +121,10 @@ export function SignUp(): JSX.Element {
 
             <AutoField name="email"/>
 
-            <AutoField name="phone_number" type="number"/>
+            <SelectField name="adresse" allowedValues={addresses}/>
+            <ErrorField name="adresse"/>
+
+            <AutoField name="phone_number" type="number"  />
             <ErrorField name="phone_number"/>
 
             <div className="row">
@@ -179,7 +191,7 @@ export function SignUp(): JSX.Element {
                   variant="outlined"
                   color="primary"
                   className={classes.outlined}
-                  startIcon={<img src="/img/icon_google.png"/>}>
+                  startIcon={<img src="/img/icon_google.png" alt="icon"/>}>
                   Se connecter avec google
                 </Button>
               </div>
@@ -188,7 +200,7 @@ export function SignUp(): JSX.Element {
                   variant="outlined"
                   color="primary"
                   className={classes.outlined}
-                  startIcon={<img src="/img/icon_facebook.png"/>}>
+                  startIcon={<img src="/img/icon_facebook.png" alt="icon"/>}>
                   Se connecter avec facebook
                 </Button>
               </div>

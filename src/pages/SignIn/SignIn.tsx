@@ -185,7 +185,7 @@ export function SignIn(): JSX.Element {
                   variant="outlined"
                   color="primary"
                   className={classes.outlined}
-                  startIcon={<img src="/img/icon_facebook.png"/>}>
+                  startIcon={<img src="/img/icon_facebook.png" alt="icon"/>}>
                   Se connecter avec facebook
                 </Button>
               </div>
@@ -198,7 +198,6 @@ export function SignIn(): JSX.Element {
                   </Link>
                 </span>
               </div>
-
             </div>
           </div>
         </div>

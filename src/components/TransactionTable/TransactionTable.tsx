@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "./TransactionTable.css"
 import {
-  Button,
   Paper,
   Table,
   TableBody,
@@ -94,152 +93,6 @@ interface Data {
   status: string,
 }
 
-//
-// const rows: Data[] = [
-//   {
-//     number: 1,
-//     dateOfBet: "12-01-2001",
-//     bet: 10000,
-//     balance: 40000,
-//     available: 30000,
-//     retained: 10000,
-//     active_duration: 10,
-//     endOfBet: "13-01-2001",
-//     status: "En cours"
-//   },
-//   {
-//     number: 2,
-//     dateOfBet: "12-01-2001",
-//     bet: 10000,
-//     balance: 40000,
-//     available: 30000,
-//     retained: 10000,
-//     active_duration: 10,
-//     endOfBet: "13-01-2001",
-//     status: "En cours"
-//   },
-//   {
-//     number: 3,
-//     dateOfBet: "12-01-2001",
-//     bet: 10000,
-//     balance: 40000,
-//     available: 30000,
-//     retained: 10000,
-//     active_duration: 10,
-//     endOfBet: "13-01-2001",
-//     status: "En cours"
-//   },
-//   {
-//     number: 4,
-//     dateOfBet: "12-01-2001",
-//     bet: 10000,
-//     balance: 40000,
-//     available: 30000,
-//     retained: 10000,
-//     active_duration: 10,
-//     endOfBet: "13-01-2001",
-//     status: "En cours"
-//   },
-//   {
-//     number: 5,
-//     dateOfBet: "12-01-2001",
-//     bet: 10000,
-//     balance: 40000,
-//     available: 30000,
-//     retained: 10000,
-//     active_duration: 10,
-//     endOfBet: "13-01-2001",
-//     status: "En cours"
-//   },
-//   {
-//     number: 6,
-//     dateOfBet: "12-01-2001",
-//     bet: 10000,
-//     balance: 40000,
-//     available: 30000,
-//     retained: 10000,
-//     active_duration: 10,
-//     endOfBet: "13-01-2001",
-//     status: "En cours"
-//   },
-//   {
-//     number: 7,
-//     dateOfBet: "12-01-2001",
-//     bet: 10000,
-//     balance: 40000,
-//     available: 30000,
-//     retained: 10000,
-//     active_duration: 10,
-//     endOfBet: "13-01-2001",
-//     status: "En cours"
-//   },
-//   {
-//     number: 8,
-//     dateOfBet: "12-01-2001",
-//     bet: 10000,
-//     balance: 40000,
-//     available: 30000,
-//     retained: 10000,
-//     active_duration: 10,
-//     endOfBet: "13-01-2001",
-//     status: "En cours"
-//   },
-//   {
-//     number: 9,
-//     dateOfBet: "12-01-2001",
-//     bet: 10000,
-//     balance: 40000,
-//     available: 30000,
-//     retained: 10000,
-//     active_duration: 10,
-//     endOfBet: "13-01-2001",
-//     status: "En cours"
-//   },
-//   {
-//     number: 10,
-//     dateOfBet: "12-01-2001",
-//     bet: 10000,
-//     balance: 40000,
-//     available: 30000,
-//     retained: 10000,
-//     active_duration: 10,
-//     endOfBet: "13-01-2001",
-//     status: "En cours"
-//   },
-//   {
-//     number: 11,
-//     dateOfBet: "12-01-2001",
-//     bet: 10000,
-//     balance: 40000,
-//     available: 30000,
-//     retained: 10000,
-//     active_duration: 10,
-//     endOfBet: "13-01-2001",
-//     status: "En cours"
-//   },
-// ]
-
-// const rows = [
-//   createData('India', 'IN', 1324171354, 3287263),
-//   createData('China', 'CN', 1403500365, 9596961),
-//   createData('Italy', 'IT', 60483973, 301340),
-//   createData('United States', 'US', 327167434, 9833520),
-//   createData('Canada', 'CA', 37602103, 9984670),
-//   createData('Australia', 'AU', 25475400, 7692024),
-//   createData('Germany', 'DE', 83019200, 357578),
-//   createData('Ireland', 'IE', 4857000, 70273),
-//   createData('Mexico', 'MX', 126577691, 1972550),
-//   createData('Japan', 'JP', 126317000, 377973),
-//   createData('France', 'FR', 67022000, 640679),
-//   createData('United Kingdom', 'GB', 67545757, 242495),
-//   createData('Russia', 'RU', 146793744, 17098246),
-//   createData('Nigeria', 'NG', 200962417, 923768),
-//   createData('Brazil', 'BR', 210147125, 8515767),
-// ];
-
-type Props = {
-  data: any[]
-}
 
 function createData(
   number: number,
@@ -255,11 +108,16 @@ function createData(
   return {number, dateOfBet, bet, balance, available, retained, active_duration, endOfBet, status};
 }
 
-export function TransactionTable(): JSX.Element {
+
+type Props = {
+  onSetTotalOfAccount: (total: string[]) => void
+}
+
+export function TransactionTable({onSetTotalOfAccount}: Props): JSX.Element {
 
   const [rows, setRows] = useState<Data[]>([])
   const [betData, setBetData] = useState<any[]>([])
-const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const currentUser = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER) as string)
 
   const [page, setPage] = useState(0);
@@ -281,6 +139,7 @@ const [isLoading, setIsLoading] = useState<boolean>(false)
         total += Number.parseInt(row[column.id].toString()) :
         ''
     })
+
     if (column.id === Bet.NUMBER)
       return 'Total'
     if (total === 0 || column.id === Bet.ACTIVE_DURATION)
@@ -313,26 +172,42 @@ const [isLoading, setIsLoading] = useState<boolean>(false)
         })
     })()
   }, [])
-  // const [rows1 , setRows] = useState<Data>(rows1)
 
   useEffect(() => {
-    betData.map((bet, index) =>
-      setRows(value => ([
-          ...value,
-          createData(
-            index + 1,
-            (new Date(bet?.start_of_bet).toLocaleString()),
-            bet?.bet_amount,
-            bet?.balance_amount,
-            bet?.available_amount,
-            bet?.retained_amount,
-            bet?.active_duration,
-            (new Date(bet?.end_of_bet)).toLocaleString(),
-            bet?.status)
-        ])
+      betData.map((bet, index) =>
+        setRows(value => ([
+            ...value,
+            createData(
+              index + 1,
+              (new Date(bet?.start_of_bet).toLocaleString()),
+              bet?.bet_amount,
+              bet?.balance_amount,
+              bet?.available_amount,
+              bet?.retained_amount,
+              bet?.active_duration,
+              (new Date(bet?.end_of_bet)).toLocaleString(),
+              bet?.status)
+          ])
+        )
       )
-    )
-  }, [betData])
+    }, [betData]
+  )
+
+  // Pour calculer le total disponible et le total retenu
+  useEffect(() => {
+    let totalAvailable = 0;
+    let totalRetained = 0;
+    columns.forEach((column) => {
+      rows.forEach(row => {
+        if (column.id === Bet.AVAILABLE && typeof row[column.id] === 'number')
+          totalAvailable += +row[column.id]
+        else if (column.id === Bet.RETAINED && typeof row[column.id] === 'number') {
+          totalRetained += +row[column.id]
+        }
+      })
+    })
+    onSetTotalOfAccount([totalAvailable.toString(), totalRetained.toString()])
+  }, [rows])
 
 
   return (
@@ -353,39 +228,42 @@ const [isLoading, setIsLoading] = useState<boolean>(false)
             </TableRow>
           </TableHead>
           <TableBody>
-            { !isLoading ?
+            {!isLoading ?
               <TableRow tabIndex={-1} className="w-100 ps-3 d-flex justify-content-center align-items-center">
                 <TableCell colSpan={9} align={'center'}>
                   <ScaleLoader color="#000000"/>
                 </TableCell>
               </TableRow>
               : rows
-              .reverse()
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.number}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell
-                          key={column.id}
-                          align={column.align}
-                          className="text-center"
-                        >
-                          {
-                            column.id === Bet.STATUS ?
-                              value === 'Terminer' ? <BsCheck2All size={32} color="green"/> : value === 'En cours' ? value + '...' : ""
-                              :
-                              column.format &&
-                              typeof value === 'number' ? column.format(value) : value
-                          }
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+                .reverse()
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  return (
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.number}>
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            className="text-center"
+                          >
+                            {
+                              column.id === Bet.STATUS ?
+                                value === 'Terminer' ?
+                                  <BsCheck2All size={32} color="green"/> : value === 'En cours' ? value + '...' : ""
+                                :
+                                row.number === rows.length && row.status ==='En cours' && (column.id === Bet.RETAINED  || column.id === Bet.AVAILABLE || column.id === Bet.END_OF_BET || column.id === Bet.BALANCE || column.id === Bet.ACTIVE_DURATION ) ? '-' :
+                                column.format &&
+                                  typeof value === 'number' ? column.format(value) : String(value) === 'Invalid Date' ? '-' :
+                                    value
+                            }
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
           </TableBody>
           <TableFooter>
             <TableRow>

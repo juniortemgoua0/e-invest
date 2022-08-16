@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import "./Transaction.css";
 import {Header} from "../../components/Header/Header";
 import {Button, IconButton} from "@material-ui/core";
@@ -9,15 +9,19 @@ import {RoundedIconCard} from "../../components/RoundedIconCard";
 import {Link} from "react-router-dom";
 import {TransactionTable} from "../../components/TransactionTable/TransactionTable";
 import {BsDownload} from "react-icons/all";
-import axios from "axios";
-import {LocalStorage} from "../../helpers/enums/localStorage.enum";
-import {toast, ToastContainer} from "react-toastify";
+import {ToastContainer} from "react-toastify";
 
 
 export function Transaction(): JSX.Element {
 
   const classes = useStyles()
+  const [totalAvailable, setTotalAvailable] = useState<string>('---')
+  const [totalRetained, setTotalRetained] = useState<string>('---')
 
+  const handleChangeTotalAccount = (totals:string[]) => {
+    setTotalAvailable(totals[0])
+    setTotalRetained(totals[1])
+  }
 
   return (
     <>
@@ -26,15 +30,28 @@ export function Transaction(): JSX.Element {
       </Header>
 
       <div className="mx-3 mb-4">
-        <p className="text-black-50 mtb-3">Disponible</p>
-        <div className="d-flex mb-4 align-items-center">
-          <h1 className="fw-bold">20 000</h1>
-          <div className="bg-warning text-white rounded-2 p-1 small ms-5" style={{objectFit: "fill"}}>
-            <span>FCFA</span>
+        <div className="w-100 d-flex justify-content-between">
+          <div >
+            <p className="text-black-50 mtb-3"> Disponible </p>
+            <div className="d-flex mb-4 align-items-end">
+              <div className="d-flex justify-content-end align-items-end"><h3 className={"fw-bold"}>{totalAvailable}</h3></div>
+              <div className="bg-warning text-white rounded-2 p-1 small ms-3" >
+                <small>FCFA</small>
+              </div>
+            </div>
+          </div>
+          <div >
+            <p className="text-black-50 mtb-3"> Retenu </p>
+            <div className="d-flex mb-4 align-items-end">
+              <div className="d-flex justify-content-end align-items-end"><h3 className={"fw-bold"}>{totalRetained}</h3></div>
+              <div className="bg-warning text-white rounded-2 p-1 small ms-3" style={{objectFit: "fill"}}>
+                <small>FCFA</small>
+              </div>
+            </div>
           </div>
         </div>
         <div className="w-100 d-flex justify-content-between align-items-center">
-          <div className="">
+          <div style={{flex: '1'}} className="me-2">
             <Link to="/withdraw" style={{textDecoration: "none"}}>
               <Button
                 className={classes.outlined}
@@ -46,7 +63,7 @@ export function Transaction(): JSX.Element {
             </Link>
           </div>
 
-          <div className="">
+          <div style={{flex: '1'}} className="ms-2">
             <Link to="/payment/bet" style={{textDecoration: "none"}}>
               <Button
                 className={classes.primary}
@@ -76,8 +93,8 @@ export function Transaction(): JSX.Element {
             secondIcon={<RoundedIconCard color="#E7B400" size={70}>
               <img src="/img/icon_retrait_white.svg" height={40} width={40} alt=""/>
             </RoundedIconCard>}
-            firstText={{title: "Total mise", amount: 20000}}
-            secondText={{title: "Retenu", amount: 4000}}
+            firstText={{title: "Disponible", amount: +totalAvailable}}
+            secondText={{title: "Retenu", amount: +totalRetained}}
           />
         </div>
       </div>
@@ -91,7 +108,7 @@ export function Transaction(): JSX.Element {
         </div>
 
         <div className="mt-4">
-          <TransactionTable/>
+          <TransactionTable onSetTotalOfAccount={handleChangeTotalAccount}/>
         </div>
       </div>
       <ToastContainer

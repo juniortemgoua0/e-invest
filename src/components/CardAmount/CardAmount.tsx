@@ -1,6 +1,5 @@
 import React from "react";
 import "./CardAmount.css";
-import {RoundedIconCard} from "../RoundedIconCard";
 
 type Props = {
   firstIcon: JSX.Element,

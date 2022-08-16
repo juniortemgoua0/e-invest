@@ -1,5 +1,5 @@
 import {CircularProgressbar} from "react-circular-progressbar";
-import React, {createRef, useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState} from "react";
 import './SemiCircularProgressbar.css';
 import axios from "axios";
 import {LocalStorage} from "../../helpers/enums/localStorage.enum";
@@ -30,20 +30,12 @@ export function roundToTwo(number: number) {
 
 export function SemiCircularProgressbar({debit, actif, progression, status, onSetActif, onSetFinish}: Props) {
 
-  const [state, setState] = useState<State>({
-    progression: 0,
-    progressionStep: "desc",
-    trail: null,
-    path: null,
-    text: null,
-  })
   const factor = 3
 
   const [counter, setCounter] = useState<number>(100 / factor);
   const [actif2, setActif2] = useState<number>(actif);
   const [stop, setStop] = useState<boolean>(false);
   const [finish, setFinish] = useState<boolean>(false);
-  const [settings, setSettings] = useState<any>()
   const [percent, setPercent] = useState<string>()
   const [isOnZero , setIsOnZero] = useState<boolean>(false)
 
@@ -51,9 +43,7 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
   let currentBet = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_BET) as string);
 
   const circleProgressbarRef = useRef(null)
-  let timer: number | undefined = undefined
   let i: number = progression;
-  let actifProps: number = actif;
 
 
   let decreaseInterval: number | undefined = undefined
@@ -115,6 +105,10 @@ export function SemiCircularProgressbar({debit, actif, progression, status, onSe
           const currentBet = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_BET) as string)
           axios.put(`${process.env.REACT_APP_API_URI}bet/${currentBet?._id}`, {
             ...currentBet,
+            // balance_amount: currentBet?.bet_amount * 3,
+            // available_amount: currentBet?.bet_amount * 3 * 0.75,
+            // retained_amount: currentBet?.bet_amount * 3 * 0.25,
+            // active_duration: 24,
             status: "Terminer",
             end_of_bet: new Date()
           }).then(r => console.log(r))

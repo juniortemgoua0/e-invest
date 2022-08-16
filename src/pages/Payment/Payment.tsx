@@ -92,7 +92,6 @@ export function Payment(): JSX.Element {
   };
 
   const [progressValidate, setProgressValidate] = useState<number>(0)
-  const [] = useState()
   useEffect(() => {
     let timer: number | undefined = undefined
 
